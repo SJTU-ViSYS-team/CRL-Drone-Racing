@@ -84,17 +84,6 @@ Please refer to `environment.yml` for the exact package versions.
 
    where `<saved_model_name>` is the model f### 快速上手（中文）——在仿真中训练端到端赛车策略
 
-**1. 环境准备**
-
-```bash
-conda env create -f environment.yml
-conda activate vision-racing
-```
-
-- 请确保本机有可用的 GPU + CUDA 环境，用于加速训练。
-- 将仿真场景配置放在 `datasets/spy_datasets/configs/` 目录下，可参考  
-  `examples/ete_racing_sim/racing_demo.py` 中的 `scene_path` 设置。ile name saved under the `saved/` folder (without extension).
-
 
 ### Real-world experiments and sim-to-real
 
@@ -105,23 +94,6 @@ Scripts in `examples/ete_racing_real/` provide utilities for:
 - Deploying trained policies in HITL / real-world experiments.
 
 These tools are **optional** and are not required if you only need simulation training, but are helpful for reproducing sim-to-real results.
-
----
-
-### Notes on repository size and assets
-
-To keep the GitHub repository lightweight and easy to clone:
-
-- Large data files are ignored via `.gitignore`, including:
-  - `.bag`, `.zip`, `.onnx`, `.pt`
-  - common image and video formats (`.png`, `.jpg`, `.avi`, `.mp4`, etc.)
-- Some example folders are **only used locally** and not tracked by Git:
-  - `examples/diff_baseline/`
-  - `examples/multi_task_IL/`
-  - `examples/sim_to_sim/`
-  - `examples/VLA_task/`
-
-If you need the full datasets, trained weights or additional examples, please generate them locally or contact the authors.
 
 ---
 
