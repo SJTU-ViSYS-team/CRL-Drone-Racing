@@ -4,9 +4,6 @@
 [![Simulator](https://img.shields.io/badge/Simulator-VisFly-brightgreen.svg)](https://github.com/SJTU-ViSYS-team/VisFly)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Official implementation of a **vision-based quadrotor racing** system with depth perception and reinforcement learning.  
-This repository accompanies an **ICRA 2026** paper on end-to-end vision-based drone racing in cluttered environments.
-
 ### Demo video
 
 - YouTube demo: [`https://youtu.be/_u7rpTWxA-I`](https://youtu.be/_u7rpTWxA-I)
