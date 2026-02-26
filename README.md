@@ -7,8 +7,6 @@
 ### Demo video
 
 - YouTube demo: [`https://youtu.be/_u7rpTWxA-I`](https://youtu.be/_u7rpTWxA-I)
-- Clickable thumbnail:
-
 [![Video Demo](https://img.youtube.com/vi/_u7rpTWxA-I/hqdefault.jpg)](https://youtu.be/_u7rpTWxA-I)
 
 ---
@@ -16,12 +14,8 @@
 ### Abstract
 
 ```text
-Vision-based drone racing in cluttered 3D environments requires a policy to jointly perceive scene geometry and generate agile, collision-free trajectories at high speed.
-Classical pipelines depend on explicit mapping and planning, which are difficult to run on-board under tight latency constraints.
-Many existing learning-based methods either assume obstacle-free tracks or rely on privileged state information that does not generalize to unseen layouts.
-In this work, we develop a reinforcement learning framework that directly consumes depth observations from an on-board camera and outputs low-level control commands for quadrotor racing.
-We design racing environments with randomized gates and obstacles, a curriculum over perception noise and dynamics, and a reward shaping scheme that balances progress, safety and control smoothness.
-The resulting policy achieves fast and robust flight in simulation, and can be transferred to real-world experiments using additional sim-to-real pipelines based on real-flight data.
+Autonomous drone racing has attracted increasing interest as a research topic for exploring the limits of agile flight. However, existing studies primarily focus on obstacle-free racetracks, while the perception and dynamic challenges introduced by obstacles remain underexplored, often resulting in low success rates and limited robustness in real-world flight. To this end, we propose a novel vision-based curriculum reinforcement learning framework for training a robust controller capable of addressing unseen obstacles in drone racing. We combine multi-stage cu
+rriculum learning, domain randomization, and a multi-scene updating strategy to address the conflicting challenges of obstacle avoidance and gate traversal. Our end-to-end control policy is implemented as a single network, allowing high-speed flight of quadrotors in environments with variable obstacles. Both hardware-in-the-loop and real-world experiments demonstrate that our method achieves faster lap times and higher success rates than existing approaches, effectively advancing drone racing in obstacle-rich environments. The video and code are available at: \url{https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing}.
 ```
 
 ---
@@ -88,11 +82,7 @@ Please refer to `environment.yml` for the exact package versions.
    python examples/ete_racing_sim/racing_demo.py --train 0 --weight <saved_model_name>
    ```
 
-   where `<saved_model_name>` is the model file name saved under the `saved/` folder (without extension).
-
----
-
-### 快速上手（中文）——在仿真中训练端到端赛车策略
+   where `<saved_model_name>` is the model f### 快速上手（中文）——在仿真中训练端到端赛车策略
 
 **1. 环境准备**
 
@@ -103,32 +93,8 @@ conda activate vision-racing
 
 - 请确保本机有可用的 GPU + CUDA 环境，用于加速训练。
 - 将仿真场景配置放在 `datasets/spy_datasets/configs/` 目录下，可参考  
-  `examples/ete_racing_sim/racing_demo.py` 中的 `scene_path` 设置。
+  `examples/ete_racing_sim/racing_demo.py` 中的 `scene_path` 设置。ile name saved under the `saved/` folder (without extension).
 
-**2. 启动训练**
-
-在工程根目录执行：
-
-```bash
-python examples/ete_racing_sim/racing_demo.py --train --comment demo1_straight
-```
-
-这一步将会：
-
-- 创建对应的赛车环境（如 `envs.demo1_straight.RacingEnv2`）；  
-- 使用 PPO 在 “状态 + 深度 + gate 索引” 的多模态观测上进行训练；  
-- 将模型权重和 TensorBoard 日志保存到 `examples/ete_racing_sim/saved/` 目录。
-
-**3. 加载已训练权重进行评估 / 可视化**
-
-```bash
-python examples/ete_racing_sim/racing_demo.py --train 0 --weight <已保存模型名称>
-```
-
-其中 `<已保存模型名称>` 为 `saved/` 目录下的模型文件名（无需扩展名）。  
-在评估模式下，可以在脚本中开启渲染、轨迹可视化和视频导出等功能。
-
----
 
 ### Real-world experiments and sim-to-real
 

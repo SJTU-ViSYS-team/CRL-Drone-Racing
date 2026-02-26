@@ -37,7 +37,7 @@ args = rl_parser().parse_args()
 training_params["num_env"] = 100
 training_params["learning_step"] = 1e8
 training_params["comment"] = args.comment
-training_params["max_episode_steps"] = 512
+training_params["max_episode_steps"] = 256
 training_params["n_steps"] = training_params["max_episode_steps"]
 training_params["batch_size"] = training_params["num_env"] * training_params["n_steps"]
 training_params["learning_rate"] = 1e-3
@@ -85,7 +85,7 @@ def main():
                         # num_agent_per_scene=training_params["num_env"]/2,
                         # 如果需要开启多个环境，需要设置num_scene
                             # num_scene=5,
-                            visual=True, # 不用视觉要改成False
+                            visual=True, 
                             max_episode_steps=training_params["max_episode_steps"],
                             scene_kwargs={
                                  "path": scene_path,
@@ -195,7 +195,7 @@ def main():
         #             tb_log_name="waypoint_state_bodyrate_2_straight_reward")
         logging.info('Training completed')
         # 在训练部分添加
-        model_name = f"demo3_ob_919_hitl_video"  # 或其他命名方式
+        model_name = f"demo3_ob_919_hitl_video" 
         # model_name = f"waypoint_state_bodyrate_2_straight_reward" 
         model.save(f"{save_folder}/{model_name}")
         # model.save()
