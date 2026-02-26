@@ -112,7 +112,3 @@ If you find this repository useful in your research, please cite the correspondi
 
 ---
 
-### License
-
-This code is released for **research purposes only**.  
-For other uses, please contact the authors of the associated ICRA 2026 paper.
