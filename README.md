@@ -35,34 +35,16 @@ in obstacle-rich environments.
 ### Built on VisFly simulator
 
 This project is developed **on top of the VisFly simulator** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly),  
-which is a fast and versatile quadrotor simulator specialized for **vision-based flight** using differentiable
-simulation (see the VisFly paper for details).
+which is a fast and versatile quadrotor simulator specialized for **vision-based flight**.
 
 Concretely:
 
 - We build our **racing in cluttered environments** by extending VisFly’s environment interfaces (`envs/`).
-- We reuse and adapt VisFly’s **dynamics, randomization, and rendering pipeline**, including the
-  `datasets/spy_datasets` format.
-
-For more information about the underlying simulator, please refer to the VisFly repository  
-[`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly) and its README.
+- We reuse and adapt VisFly’s **dynamics, randomization, and rendering pipeline**, including the `datasets/spy_datasets` format.
 
 ---
 
-### Repository structure
-
-- `envs/` – quadrotor racing and waypoint environments  
-  - e.g. `demo3_ellipse_onboard.RacingEnv` for onboard depth-based ellipse track racing.
-- `utils/` – algorithms (PPO, SHAC, BPTT), policy networks, data handling, logging, plotting.
-- `configs/` – quadrotor dynamics and controller parameters (e.g. `example_offboard.json`).
-- `examples/ete_racing_sim/` – end-to-end racing training and evaluation scripts in simulation.
-- `examples/ete_racing_real/` – ROS bag processing, dynamics fitting, and sim-to-real deployment tools.
-
----
-
-### Quick start - train and test a racing policy in simulation
-
-Use the same environment setup as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
+### Quick start - train and test a racing and obstacle-avoidance policy in simulation
 
 1. Clone this repository:
 
@@ -71,10 +53,12 @@ git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
 cd CRL-Drone-Racing
 ```
 
-2. Create and activate the Conda environment: ()
+2. Create and activate the Conda environment: 
+
+We use the same environment setup as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
 
 ```bash
-conda activate visfly
+conda activate visfly_525
 ```
 
 3. **Prepare datasets and scenes**
@@ -83,29 +67,20 @@ conda activate visfly
 
    - `datasets/spy_datasets/configs/`
 
-   You can use `examples/ete_racing_sim/racing_demo.py` as a reference and adjust the `scene_path` variable
+   You can use `examples/ete_racing_sim/run.py` as a reference and adjust the `scene_path` variable
    to point to your desired track configuration.
 
 4. **Start training**
-   From the repository root:
 
    ```bash
    python examples/ete_racing_sim/run.py -t 1
    ```
 
-   This will:
-   - Instantiate a racing environment (e.g. `envs.demo1_straight.RacingEnv2`).  
-   - Train a PPO policy with multi-modal observations (state, depth, gate index).  
-   - Save logs and checkpoints in `examples/ete_racing_sim/saved/`.
-
 5. **Evaluate a trained model**
 
    ```bash
-   python examples/ete_racing_sim/racing_demo.py --train 0 --weight <saved_model_name>
+   python examples/ete_racing_sim/racing_demo.py -t 0 -w <saved_model_name>
    ```
-
-   where `<saved_model_name>` is the model file name saved under the `saved/` folder (without extension).
-
 <!-- ---
 
 ### Real-world experiments and sim-to-real
