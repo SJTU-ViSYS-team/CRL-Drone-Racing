@@ -40,46 +40,13 @@ which is a fast and versatile quadrotor simulator specialized for **vision-based
 Concretely:
 
 - We build our **racing in cluttered environments** by extending VisFly’s environment interfaces (`envs/`).
-- We reuse and adapt VisFly’s **dynamics, randomization, and rendering pipeline**, including the
-  `datasets/spy_datasets` format.
+- We reuse and adapt VisFly’s **dynamics, randomization, rendering pipeline, and the datasets format**.
 
 For more information about the underlying simulator, please refer to the VisFly repository  
 [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly) and its README.
 
 ---
 
-
-
-#### 2. 创建并激活 Conda 环境
-
-```bash
-conda env create -f environment.yml
-conda activate CRL-racing
-```
-
-该环境大致包含：
-
-- Python 3.x  
-- PyTorch + CUDA（用于 GPU 训练）  
-- 与 VisFly 一致的 Habitat-Sim 及渲染依赖  
-
-#### 3. 安装 CGAL（几何库依赖，与 VisFly 一致）
-
-```bash
-sudo apt-get install libcgal-dev
-```
-
-如遇到编译或依赖问题，可参考 CGAL 官方安装文档。
-
-#### 4. 安装修改版 Habitat-Sim（如果尚未按 VisFly 安装）
-
-本工程与 VisFly 共用一套经过修改的 Habitat-Sim，你可以参考 VisFly 的说明进行安装，例如：
-
-```bash
-git clone https://github.com/Fanxing-LI/habitat-sim
-cd habitat-sim
-# 然后按照 Habitat-Sim 官方文档中的 “Build from Source” 步骤编译安装
-```
 
 ### Quick start - train and test in simulation
 
@@ -90,7 +57,11 @@ git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
 cd CRL-Drone-Racing
 ```
 
-2. Prepare datasets and scene configs under `datasets/spy_datasets/configs/`.
+2. Create conda environment
+
+```bash
+conda activate visfly
+```
 
 3. Start training:
 
