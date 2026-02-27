@@ -53,12 +53,11 @@ git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
 cd CRL-Drone-Racing
 ```
 
-2. Create and activate the Conda environment: 
-
-We use the same environment setup as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
+2. Set up the Conda environment (same dependency stack as **VisFly**):
 
 ```bash
-conda activate visfly_525
+conda env create -f environment.yml
+conda activate visfly
 ```
 
 3. **Prepare datasets and scenes**
@@ -81,20 +80,25 @@ conda activate visfly_525
    ```bash
    python examples/ete_racing_sim/racing_demo.py -t 0 -w <saved_model_name>
    ```
-<!-- ---
 
-### Real-world experiments and sim-to-real
+### 
+---
 
-Scripts in `examples/ete_racing_real/` provide utilities for:
+### Advanced Guide: Customizing or Replacing Simulation Tracks
 
-- Converting ROS bag data to depth images and state logs.  
-- Fitting dynamics models from real-flight data.  
-- Deploying trained policies in HITL / real-world experiments.
+1. **Create or Acquire Scene Models**
 
-These tools are **optional** and are not required if you only need simulation training,  
-but are helpful for reproducing sim-to-real results.
+   - You can handcraft track scenes using [Blender](https://www.blender.org) or similar 3D modeling software, or directly download publicly available `.glb` models (ensure they include proper collision geometry, i.e., “physically inflated glb”). Place these files in `datasets/spy_datasets/self_define_objects/`.
 
---- -->
+2. **Add Scene JSON Configuration**
+
+   - Refer to the file structure and examples used by [`VisFly`](https://github.com/SJTU-ViSYS-team/VisFly`) (especially how habitat-sim scene JSONs are organized). You’ll need to provide a corresponding `.json` configuration for each new scene config.
+
+3. **Train or Evaluate with New Scenes**
+
+   - In your training/testing script (e.g., `examples/ete_racing_sim/run.py`), update the `scene_path` variable to point to your custom scene configuration file.
+
+---
 
 ### Citation
 
