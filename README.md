@@ -48,29 +48,7 @@ For more information about the underlying simulator, please refer to the VisFly 
 
 ---
 
-### Repository structure
 
-- `envs/` – quadrotor racing and waypoint environments  
-  - e.g. `demo3_ellipse_onboard.RacingEnv` for onboard depth-based ellipse track racing.
-- `utils/` – algorithms (PPO, SHAC, BPTT), policy networks, data handling, logging, plotting.
-- `configs/` – quadrotor dynamics and controller parameters (e.g. `example_offboard.json`).
-- `examples/ete_racing_sim/` – end-to-end racing training and evaluation scripts in simulation.
-- `examples/ete_racing_real/` – ROS bag processing, dynamics fitting, and sim-to-real deployment tools.
-
----
-
-### Environment setup
-
-We follow the same dependency stack as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).  
-
-#### 1. 克隆本仓库
-
-```bash
-git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
-cd CRL-Drone-Racing
-```
-
-（如果你使用的是个人仓库，请将 URL 替换为对应地址。）
 
 #### 2. 创建并激活 Conda 环境
 
