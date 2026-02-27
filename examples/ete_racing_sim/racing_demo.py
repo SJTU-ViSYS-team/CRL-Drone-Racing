@@ -82,7 +82,6 @@ random_kwargs = {
         }
 }
 
-# 只在调试的时候打开即可
 # torch.autograd.detect_anomaly()
 
 latent_dim = 256
