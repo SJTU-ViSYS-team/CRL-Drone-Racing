@@ -57,9 +57,10 @@ git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
 cd CRL-Drone-Racing
 ```
 
-2. Create conda environment
+2. Create Conda environment:
 
 ```bash
+# Assuming you have already set up the visfly environment.
 conda activate visfly
 ```
 
