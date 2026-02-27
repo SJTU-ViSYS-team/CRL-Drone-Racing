@@ -1,0 +1,430 @@
+import numpy as np
+from envs.droneGymEnv import DroneGymEnvsBase
+from typing import Union, Tuple, List, Optional, Dict
+import torch as th
+from habitat_sim import SensorType
+from gymnasium import spaces
+from collections import deque
+# from ..utils.tools.train_encoder import model as encoder
+from utils.type import TensorDict
+import cv2
+import random
+import json
+from scipy.spatial.transform import Rotation as R
+# is_pos_reward = True
+
+
+class RacingEnv(DroneGymEnvsBase):
+    def __init__(
+        self,
+        num_agent_per_scene: int = 1,
+        num_scene: int = 1,
+        seed: int = 42,
+        visual: bool = True,
+        requires_grad: bool = False,
+        random_kwargs: dict = {},
+        dynamics_kwargs: dict = {},
+        scene_kwargs: dict = {},
+        sensor_kwargs: list = [],
+        device: str = "cpu",
+        target: Optional[th.Tensor] = None,
+        max_episode_steps: int = 256,
+        latent_dim=None,
+    ):
+        random_kwargs = {
+            "noise_kwargs": {
+            # please refer to the image noise setting in habitat-sim: https://aihabitat.org/docs/habitat-sim/habitat_sim.sensors.noise_models.html
+            # "depth": {
+            #     "model": "GaussianNoiseModel",
+            #     "kwargs": {}
+            # },
+            "IMU": {
+                "model": "GaussianNoiseModel", # assert model in ["GaussianNoiseModel", "UniformNoiseModel"]
+                "kwargs": {
+                        "mean": [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        "std": [0,0,0,0,0,0,0,0.1,0.1,0.1,0.2,0.2,0.2],
+
+                    }
+            }
+        },
+            "state_generator":
+                {
+                    "class": "Union",
+
+                    "kwargs": [
+                        {"randomizers_kwargs":
+                            [
+                                {
+                                    "class": "Uniform",
+                                    "kwargs":
+                                        {"position": {"mean": [1., 0., 1], "half": [0.5, 0.5, 0.5]}},
+
+                                },
+                                # {
+                                #     "class": "Uniform",
+                                #     "kwargs":
+                                #         {"position": {"mean": [4., 0., 1.5], "half": [.2, .2, 0.2]}},
+
+                                # },
+                                # {
+                                #     "class": "Uniform",
+                                #     "kwargs":
+                                #         {"position": {"mean": [7., 0., 1], "half": [.2, .2, 0.2]}},
+
+                                # },
+                                # {
+                                #     "class": "Uniform",
+                                #     "kwargs":
+                                #         {"position": {"mean": [10., 0., 1], "half": [.2, .2, 0.2]}},
+
+                                # },
+                            ]
+                        }
+                    ]
+
+                }
+        }
+
+        # sensor_kwargs = [{
+        #     "sensor_type": SensorType.DEPTH,
+        #     "uuid": "depth",
+        #     "position": [0.0, 0.0, -0.2],
+        #     "resolution": [64, 64],
+        # }]
+        sensor_kwargs = []
+        dynamics_kwargs = {
+            "dt": 0.01,
+            "ctrl_dt": 0.03,
+            "action_type": "bodyrate",
+            "ctrl_delay": True,
+        }
+        super().__init__(
+            num_agent_per_scene=num_agent_per_scene,
+            num_scene=num_scene,
+            seed=seed,
+            visual=visual,
+            requires_grad=requires_grad,
+            random_kwargs=random_kwargs,
+            dynamics_kwargs=dynamics_kwargs,
+            sensor_kwargs=sensor_kwargs,
+            scene_kwargs=scene_kwargs,
+            device=device,
+            max_episode_steps=max_episode_steps,
+            latent_dim=latent_dim,
+        )
+        
+        self.previous_position = deque(maxlen=2)  # 初始化上一步位32
+        self.pastAction = th.zeros((self.num_envs, 12))  # 初始化过去动作
+        self.previous_actions = deque(maxlen=4)  # 初始化动作队列
+        self.last_action = th.zeros((self.num_envs, 4)) 
+        self.last_position = th.zeros((self.num_envs, 3))
+        self.v_d = 0.5*th.ones((self.num_envs,),dtype=th.float)
+                
+        self.targets = th.as_tensor([
+            [3, 0, 1.],
+            [5, 2, 1.],
+            [7, 0, 1.],
+            [8, 0, 1.]
+        ])
+        self.orientations = th.as_tensor([
+            [-0.5,  0.5,  0.5, -0.5],
+            [-0.70710678, 0, 0, -0.70710678],
+            [-0.5,  0.5,  0.5, -0.5],
+            [-0.70710678, 0, 0, -0.70710678],
+        ])
+
+        self.yaw_errors = th.zeros((self.num_envs, 1),dtype=float)
+        
+        self.length_target = len(self.targets)
+        self._next_target_num = 2
+        self._next_target_i = th.zeros((self.num_envs,), dtype=th.int)
+        self._past_targets_num = th.zeros((self.num_envs,), dtype=th.int)
+        self._is_pass_next = th.zeros((self.num_envs,), dtype=th.bool)
+        self.success_radius = 0.3
+        
+        self.total_timesteps = 0
+        
+        self.observation_space["vd"] = spaces.Box(
+            low=0.,
+            high=30.,
+            shape=(1,),
+            dtype=np.float32
+        )
+        
+        # state observation includes gates
+        self.observation_space["state"] = spaces.Box(
+            low=-np.inf,
+            high=np.inf,
+            shape=(3 * (self._next_target_num - 1) + self.observation_space["state"].shape[0],),
+            dtype=np.float32
+        )
+        
+    def collect_info(self, indice, observations):
+        _info = super().collect_info(indice, observations)
+        _info['episode']["extra"]["past_gate"] = self._past_targets_num[indice].item()
+        return _info
+
+    @property
+    def is_pass_next(self):
+        return self._is_pass_next
+
+    def get_observation(
+            self,
+            indices=None
+    ) -> Dict:
+        
+        if not self.requires_grad:
+            if self.visual:
+                obs = TensorDict({
+                    "state": self.state.cpu().numpy(),
+                    "index": self._next_target_i.cpu().numpy(),
+                    "vd": self.v_d.cpu().numpy(),
+                    # "pastAction": self.pastAction.cpu().numpy(),
+                    # "noise_target" : self.noise_target.cpu().numpy(),
+                    "latent": self.latent.cpu().numpy(),
+                    "depth": self.sensor_obs["depth"],
+                })
+            else:
+                obs = TensorDict({
+                    "state": self.state.cpu().numpy(),
+                    "index": self._next_target_i.cpu().numpy(),
+                    "vd": self.v_d.cpu().numpy(),
+                    # "noise_target" : self.noise_target.cpu().numpy(),
+                    "latent": self.latent.cpu().numpy(),
+                    # "pastAction": self.pastAction.cpu().numpy()
+                })
+        else:
+            if self.visual:
+                obs = TensorDict({
+                    "state": self.state,
+                    "index": self._next_target_i,
+                    "vd": self.v_d,
+                    # "pastAction": self.pastAction,
+                    "latent": self.latent,
+                    # "noise_target": self.noise_target,
+                    "depth": th.from_numpy(self.sensor_obs["depth"]),
+                })
+            else:
+                obs = TensorDict({
+                    "state": self.state,
+                    "vd": self.v_d,
+                    "index": self._next_target_i,
+                    "latent": self.latent,
+                    # "noise_target": self.noise_target,
+                    # "pastAction": self.pastAction
+                })
+
+        return obs
+    
+    def get_success(self) -> th.Tensor:
+        _next_target_i_clamp = self._next_target_i
+        self._is_pass_next = ((self.position - self.targets[_next_target_i_clamp]).norm(dim=1) <= self.success_radius)
+        self._next_target_i = self._next_target_i + self._is_pass_next
+        # self._next_target_i = self._next_target_i % len(self.targets)
+        self._past_targets_num = self._past_targets_num + self._is_pass_next
+        return self._next_target_i == len(self.targets)-1
+
+    def reset_by_id(self, indices=None, state=None, reset_obs=None):
+        indices = th.arange(self.num_envs) if indices is None else indices
+        if reset_obs is not None:
+            self._next_target_i = reset_obs["index"].to(self.device).squeeze()
+        else:
+            self._choose_target(indices=indices)
+            # self._random_obstacle(indices=indices)
+            # self._next_target_i[indices] = th.zeros((len(indices),), dtype=th.int)
+
+        self._past_targets_num[indices] = th.zeros((len(indices),), dtype=th.int)
+        self._is_pass_next[indices] = th.zeros((len(indices),), dtype=th.bool)
+
+        obs = super().reset_by_id(indices, state, reset_obs)
+
+        return obs
+
+    def reset(self, state=None, obs=None):
+        obs = super().reset(state)
+        self._next_target_i = th.zeros((self.num_envs,), dtype=th.int)
+        # self._past_targets_num = th.zeros((self.num_envs,), dtype=th.int)
+        self._choose_target()
+        # self._random_obstacle()
+        return obs
+    
+    def world_to_body(self, relative_pos_world):
+        # 使用四元数将世界坐标系下的相对坐标转换到机体系下
+        rotation = R.from_quat(self.orientation.cpu().numpy())
+        rotation_matrix = th.from_numpy(rotation.as_matrix()).to(self.device).float()  # 确保 rotation_matrix 是 float 类型
+        relative_pos_world = relative_pos_world.float()  # 确保 relative_pos_world 是 float 类型
+
+        # 进行矩阵乘法，将世界坐标系下的相对坐标转换到机体系下
+        relative_pos_body = th.einsum('bij,bjk->bik', rotation_matrix.transpose(1, 2), relative_pos_world.transpose(1, 2)).transpose(1, 2)
+        return relative_pos_body
+
+    def _choose_target(self, indices=None):
+        indices = th.arange(self.num_envs) if indices is None else indices
+        rela_poses = self.position - th.as_tensor([5,0,1])
+        for index in indices:
+            # if rela_poses[index][0] < -3:
+            #     self._next_target_i[index] = 0
+            # elif rela_poses[index][0] < 0:
+            #     self._next_target_i[index] = 1
+            # elif rela_poses[index][0] < 3:
+            #     self._next_target_i[index] = 2
+            # elif rela_poses[index][0] < 6:
+            #     self._next_target_i[index] = 3
+            self._next_target_i[index] = 0
+                    
+    def add_gyro_noise_full(true_omega, dt, white_sigma, bias_instability, arw_sigma):
+        n_samples = true_omega.shape[0]
+        
+        # 白噪声
+        white_noise = np.random.normal(0, white_sigma, size=true_omega.shape)
+        
+        # 偏置不稳定性 (低通滤波)
+        bias = np.zeros_like(true_omega)
+        for i in range(1, n_samples):
+            bias[i] = bias[i-1] + (bias_instability * np.random.randn()) * dt
+        
+        # 随机游走 (累积噪声)
+        arw = arw_sigma * np.sqrt(dt) * np.cumsum(np.random.randn(n_samples))
+        
+        return true_omega + white_noise + bias + arw[:, np.newaxis]
+        
+    def get_reward(self) -> th.Tensor:
+        lambda1 = 0.6
+        lambda2 = 0.15
+        lambda3 = 0.005
+        lambda4 = 0.002
+        lambda5 = 0.001
+        lambda6 = 0.08
+        lambda7 = 0.05
+        lambda_hover_pos = 0.5  # 新增悬停位置误差系数
+        lambda_hover_vel = 0.1  # 新增悬停速度误差系数
+
+        _next_target_i_clamp = self._next_target_i.clamp_max(len(self.targets) - 1)
+        success = self.get_success()  # 更新成功状态
+
+        # 原始奖励计算
+        r_prog1 = lambda1 * ((self.last_position - self.targets[_next_target_i_clamp]).norm(dim=1) - 
+                  (self.position - self.targets[_next_target_i_clamp]).norm(dim=1))
+        r_ori = -lambda2 * (self.orientation - th.tensor([1, 0, 0, 0])).norm(dim=1)
+        r_cmd = -lambda3 * (self._action - 0).norm(dim=1) - lambda4 * (self._action - self.last_action).norm(dim=1)
+        r_crash = -4.0 * self.is_collision
+        r_vel = -lambda6 * ((self.velocity).norm(dim=1) - self.v_d).abs()
+        r_pass = 5.0 * self.is_pass_next
+        r_success = 10.0 * success  # 成功奖励
+
+        # 悬停奖励项
+        r_hover_pos = -lambda_hover_pos * (self.position - self.targets[_next_target_i_clamp]).norm(dim=1)
+        r_hover_vel = -lambda_hover_vel * self.velocity.norm(dim=1)
+
+        # 合并奖励，成功时添加悬停奖励
+        reward = r_prog1 + r_pass + r_success + r_crash + r_ori + r_cmd + r_vel
+        reward += success * (r_hover_pos + r_hover_vel)
+
+        return reward
+
+    def step(self, action):
+        # 在调用父类step前覆盖悬停动作
+        success = self.get_success()
+        hover_throttle = 0  # 根据实际动力学调整该值
+        hover_action = th.tensor([hover_throttle, 0.0, 0.0, 0.0], device=self.device)
+        
+        # 将成功环境的动作设为悬停动作
+        action[success] = hover_action
+        
+        # 调用父类的step方法
+        obs, reward, done, info = super().step(action)
+        return obs, reward, done, info
+    
+class RacingEnv2(RacingEnv):
+
+    def __init__(
+            self,
+            num_agent_per_scene: int = 1,
+            num_scene: int = 1,
+            seed: int = 42,
+            visual: bool = True,
+            requires_grad: bool = False,
+            random_kwargs: dict = {},
+            dynamics_kwargs: dict = {},
+            scene_kwargs: dict = {},
+            sensor_kwargs: list = [],
+            device: str = "cpu",
+            max_episode_steps: int = 256,
+            latent_dim=None,
+    ):
+        super().__init__(
+            num_agent_per_scene=num_agent_per_scene,
+            num_scene=num_scene,
+            seed=seed,
+            visual=visual,
+            requires_grad=requires_grad,
+            random_kwargs=random_kwargs,
+            dynamics_kwargs=dynamics_kwargs,
+            scene_kwargs=scene_kwargs,
+            sensor_kwargs=sensor_kwargs,
+            device=device,
+            max_episode_steps=max_episode_steps,
+            latent_dim=latent_dim
+        )
+
+    def get_observation(
+            self,
+            indices=None
+    ) -> Dict:
+
+        # self.total_timesteps += 1
+
+        # # 检查时间步长是否达到要求
+        # if self.total_timesteps % self.target_update_interval == 0:
+        #     # self.reset_by_id(indices=self.indice)
+        #     self.reset()
+
+        _next_targets_i_clamp = th.stack([self._next_target_i + i for i in range(self._next_target_num)]).T % len(self.targets)
+        next_targets = self.targets[_next_targets_i_clamp]
+        # relative_pos = (next_targets - self.position.unsqueeze(1)).reshape(self.num_envs, -1)
+        
+        relative_pos_world = (next_targets - self.position.unsqueeze(1))
+        relative_pos_body = self.world_to_body(relative_pos_world)
+        relative_pos = relative_pos_body.reshape(self.num_envs, -1)
+        
+        self.previous_position.append(self.position.clone())
+        self.previous_actions.append(self._action.clone())
+        
+        if len(self.previous_position) > 1:
+            self.last_position= self.previous_position[-2]
+        if len(self.previous_actions) > 2:
+            self.pastAction = th.cat(list(self.previous_actions)[:3], dim=-1)
+            self.last_action = self.previous_actions[-2] #倒数第二个应该才是上一步的动作
+        
+        # state = th.hstack([
+        #     relative_pos / self.max_sense_radius,
+        #     self.orientation,
+        #     self.velocity / 10,
+        #     self.angular_velocity / 10,
+        # ]).to(self.device)
+        
+        state = th.hstack([
+            relative_pos / self.max_sense_radius,
+            self.orientation,
+            self.sensor_obs['IMU'][:,7:10] / 10,
+            self.sensor_obs['IMU'][:,10:13] / 10,
+        ]).to(self.device)
+
+        if not self.requires_grad:
+            if self.visual:
+                return TensorDict({
+                    # "index": self._next_target_i.clone().detach().cpu().numpy().reshape(-1, 1),
+                    "state": state,
+                    # "pastAction": self.pastAction.cpu().numpy(),
+                    "vd": self.v_d.unsqueeze(1).cpu().numpy(),
+                    # "depth": self.sensor_obs["depth"],
+                    # "latent": self.latent.cpu().numpy(),
+                })
+            else:
+                return TensorDict({
+                    # "index": self._next_target_i.clone().detach().cpu().numpy().reshape(-1, 1),
+                    "state": state,
+                    "vd": self.v_d.unsqueeze(1).cpu().numpy(),
+                    # "latent": self.latent.cpu().numpy(),
+                    # "pastAction": self.pastAction.cpu().numpy()
+                })
