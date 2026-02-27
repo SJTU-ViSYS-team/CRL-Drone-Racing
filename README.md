@@ -60,53 +60,24 @@ For more information about the underlying simulator, please refer to the VisFly 
 
 ---
 
-### Installation
+### Quick start - train and test a racing policy in simulation
 
-We follow the same dependency stack as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).  
+Use the same environment setup as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
 
-#### 1. 克隆本仓库
+1. Clone this repository:
 
 ```bash
 git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
 cd CRL-Drone-Racing
 ```
 
-（如果你使用的是个人仓库，请将 URL 替换为对应地址。）
-
-#### 2. 创建并激活 Conda 环境
+2. Create and activate the Conda environment: ()
 
 ```bash
-conda env create -f environment.yml
-conda activate CRL-racing
+conda activate visfly
 ```
 
-该环境大致包含：
-
-- Python 3.x  
-- PyTorch + CUDA（用于 GPU 训练）  
-- 与 VisFly 一致的 Habitat-Sim 及渲染依赖  
-
-#### 3. 安装 CGAL（几何库依赖，与 VisFly 一致）
-
-```bash
-sudo apt-get install libcgal-dev
-```
-
-如遇到编译或依赖问题，可参考 CGAL 官方安装文档。
-
-#### 4. 安装修改版 Habitat-Sim（如果尚未按 VisFly 安装）
-
-本工程与 VisFly 共用一套经过修改的 Habitat-Sim，你可以参考 VisFly 的说明进行安装，例如：
-
-```bash
-git clone https://github.com/Fanxing-LI/habitat-sim
-cd habitat-sim
-# 然后按照 Habitat-Sim 官方文档中的 “Build from Source” 步骤编译安装
-```
-
-### Quick start – train a racing policy in simulation
-
-1. **Prepare datasets and scenes**
+3. **Prepare datasets and scenes**
 
    Place the simulator datasets and scene configs under:
 
@@ -115,21 +86,19 @@ cd habitat-sim
    You can use `examples/ete_racing_sim/racing_demo.py` as a reference and adjust the `scene_path` variable
    to point to your desired track configuration.
 
-2. **Start training**
-
+4. **Start training**
    From the repository root:
 
    ```bash
-   python examples/ete_racing_sim/racing_demo.py --train --comment demo1_straight
+   python examples/ete_racing_sim/run.py -t 1
    ```
 
    This will:
-
    - Instantiate a racing environment (e.g. `envs.demo1_straight.RacingEnv2`).  
    - Train a PPO policy with multi-modal observations (state, depth, gate index).  
    - Save logs and checkpoints in `examples/ete_racing_sim/saved/`.
 
-3. **Evaluate a trained model**
+5. **Evaluate a trained model**
 
    ```bash
    python examples/ete_racing_sim/racing_demo.py --train 0 --weight <saved_model_name>
@@ -137,7 +106,7 @@ cd habitat-sim
 
    where `<saved_model_name>` is the model file name saved under the `saved/` folder (without extension).
 
----
+<!-- ---
 
 ### Real-world experiments and sim-to-real
 
@@ -150,7 +119,7 @@ Scripts in `examples/ete_racing_real/` provide utilities for:
 These tools are **optional** and are not required if you only need simulation training,  
 but are helpful for reproducing sim-to-real results.
 
----
+--- -->
 
 ### Citation
 
@@ -179,10 +148,3 @@ Since this project is built on **VisFly**, please also cite the VisFly simulator
   url           = {https://arxiv.org/abs/2407.14783}
 }
 ```
-
----
-
-### License
-
-This project is released under the **MIT License**. See the `LICENSE` file for details.  
-Please also follow the licenses of any third-party dependencies (including VisFly and Habitat-Sim).
