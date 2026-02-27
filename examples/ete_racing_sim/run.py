@@ -9,20 +9,12 @@ import torch as th
 sys.path.append(os.getcwd())
 import utils.algorithms.lr_scheduler as lr_scheduler
 
-# from envs.demo2_3Dcircle import RacingEnv2
-# from envs.demo1_straight import RacingEnv2
-# from envs.demo3_ellipse import RacingEnv2
-# from envs.demo4_8 import RacingEnv2
 from utils.policies import extractors
 from utils.algorithms.ppo import ppo
 from utils import savers
-# from envs.waypoint_depth import RacingEnv2
-# from envs.waypoint_depth_noise import RacingEnv2
 # from envs.demo1_fast import RacingEnv2
 # from envs.demo2_3Dcircle_fast import RacingEnv2
 # from envs.demo3_ellipse_fast import RacingEnv2
-# from envs.waypoint_hover import RacingEnv2
-# from envs.waypoint_test import RacingEnv2
 # from envs.demo1_straight_onboard  import RacingEnv2
 # from envs.demo2_3Dcircle_onboard  import RacingEnv2
 from envs.demo3_ellipse_onboard  import RacingEnv2
@@ -71,7 +63,6 @@ scene_path = "datasets/spy_datasets/configs/demo3_J"
 # scene_path = "datasets/spy_datasets/configs/demo3_songjiang"
 # scene_path = "datasets/spy_datasets/configs/demo3_U"
 
-# 只在调试的时候打开即可
 # torch.autograd.detect_anomaly()
 
 latent_dim = 256
@@ -83,7 +74,7 @@ def main():
     if args.train:
         env = RacingEnv2(num_agent_per_scene=training_params["num_env"],
                         # num_agent_per_scene=training_params["num_env"]/2,
-                        # 如果需要开启多个环境，需要设置num_scene
+                        # To run multiple environments, set num_scene
                             # num_scene=5,
                             visual=True, 
                             max_episode_steps=training_params["max_episode_steps"],
@@ -194,7 +185,7 @@ def main():
         # model.learn(training_params["learning_step"],
         #             tb_log_name="waypoint_state_bodyrate_2_straight_reward")
         logging.info('Training completed')
-        # 在训练部分添加
+        # Add this in the training section
         model_name = f"demo3_ob_919_hitl_video" 
         # model_name = f"waypoint_state_bodyrate_2_straight_reward" 
         model.save(f"{save_folder}/{model_name}")

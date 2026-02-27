@@ -82,7 +82,7 @@ random_kwargs = {
         }
 }
 
-# 只在调试的时候打开即可
+# Enable only during debugging
 # torch.autograd.detect_anomaly()
 
 latent_dim = 256
@@ -94,9 +94,9 @@ def main():
     if args.train:
         env = RacingEnv2(num_agent_per_scene=training_params["num_env"],
                         # num_agent_per_scene=training_params["num_env"]/2,
-                        # 如果需要开启多个环境，需要设置num_scene
+                        # To run multiple environments, set num_scene
                             # num_scene=1,
-                            visual=False, # 不用视觉要改成False
+                            visual=False, # Set to False when not using vision
                             max_episode_steps=training_params["max_episode_steps"],
                             scene_kwargs={
                                  "path": scene_path,
@@ -200,8 +200,8 @@ def main():
         # model.learn(training_params["learning_step"],
         #             tb_log_name="waypoint_state_bodyrate_2_straight_reward")
         logging.info('Training completed')
-        # 在训练部分添加
-        model_name = f"waypoint_state_4_25_low_velocity"  # 或其他命名方式
+        # Add this in the training section
+        model_name = f"waypoint_state_4_25_low_velocity"  # or other naming style
         # model_name = f"waypoint_state_bodyrate_2_straight_reward" 
         model.save(f"{save_folder}/{model_name}")
         # model.save()
