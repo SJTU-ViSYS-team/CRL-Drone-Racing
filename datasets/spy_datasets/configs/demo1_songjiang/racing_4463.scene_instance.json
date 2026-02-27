@@ -1,0 +1,245 @@
+{
+    "stage_instance": {
+        "template_name": "stages/songjiang"
+    },
+    "default_lighting": "default",
+    "object_instances": [
+        {
+            "template_name": "gate",
+            "translation": [
+                -0.0,
+                1.0,
+                -3.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                1.0,
+                1.0,
+                -7.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                -1.0,
+                1.0,
+                -11.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                0.0,
+                1.0,
+                -15.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                0.91529213767088,
+                0.0,
+                -4.841039346950718
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                1.4969765698321527,
+                0.0,
+                -4.183853009044176
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                -0.8251042409737845,
+                0.0,
+                -4.639851776505957
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                -0.5853620003970361,
+                0.0,
+                -10.053282066415925
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                0.7382569238819214,
+                0.0,
+                -10.360377533265401
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                -1.523267697288,
+                0.0,
+                -10.067488531523457
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                0.23945751943174542,
+                0.0,
+                -14.368050816277911
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                -1.4402581268691503,
+                0.0,
+                -14.335016931828358
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.15_0.15tree",
+            "translation": [
+                0.07252861055930504,
+                0.0,
+                -13.109890579955215
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        }
+    ],
+    "articulated_object_instances": [],
+    "user_custom": {
+        "bound": [
+            [
+                0,
+                -7,
+                0
+            ],
+            [
+                18,
+                7,
+                5.0
+            ]
+        ]
+    },
+    "navmesh_instance": "empty_stage_navmesh"
+}

@@ -1,0 +1,330 @@
+{
+    "stage_instance": {
+        "template_name": "stages/garage_v1"
+    },
+    "default_lighting": "datasets/spy_datasets/configs/lighting/garage_v1_0.lighting_config.json",
+    "object_instances": [
+        {
+            "template_name": "gate",
+            "translation": [
+                -3.0,
+                1.0,
+                -4.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                0.0,
+                1.0,
+                -2.0
+            ],
+            "rotation": [
+                0.7071,
+                0,
+                0.7071,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                3.0,
+                1.0,
+                -4.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                3.0,
+                1.0,
+                -8.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                0.0,
+                1.0,
+                -10.0
+            ],
+            "rotation": [
+                0.7071,
+                0,
+                0.7071,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "gate",
+            "translation": [
+                -3.0,
+                1.0,
+                -8.0
+            ],
+            "rotation": [
+                1.0,
+                0,
+                0,
+                0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                -2.2789747649191443,
+                0.0,
+                -2.9940528058398677
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                -1.2124912837842445,
+                0.0,
+                -1.8096607077570215
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                -3.242121996348599,
+                0.0,
+                -4.787577665735272
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                -2.2440864160589604,
+                0.0,
+                -6.248063176135882
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                -1.3557143465599006,
+                0.0,
+                -10.392564576190264
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                -3.137197035979478,
+                0.0,
+                -10.623561051531139
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                2.811390036980713,
+                0.0,
+                -1.8906166822794925
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                2.4873555938596708,
+                0.0,
+                -2.6228467321057334
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                2.40180552025822,
+                0.0,
+                -5.576254900633071
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                2.54630917398142,
+                0.0,
+                -5.205178101691629
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                2.113017644148587,
+                0.0,
+                -10.284876846898962
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        },
+        {
+            "template_name": "0.1_0.1_2cylinder",
+            "translation": [
+                3.3949982933277347,
+                0.0,
+                -10.932726017826747
+            ],
+            "rotation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "uniform_scale": 1.0,
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        }
+    ],
+    "articulated_object_instances": [],
+    "user_custom": {
+        "bound": [
+            [
+                0,
+                -7,
+                0
+            ],
+            [
+                18,
+                7,
+                5.0
+            ]
+        ]
+    },
+    "navmesh_instance": "empty_stage_navmesh"
+}

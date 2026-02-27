@@ -3,6 +3,7 @@
 debug/*
 ！debug/*.py
 datasets/*
+!datasets/spy_datasets/
 # 忽略所有 Python 缓存文件
 *.pyc
 __pycache__/
@@ -43,4 +44,5 @@ examples/ete_racing_sim/racing_ellipse/
 examples/ete_racing_sim/racing_straight/
 examples/ete_racing_sim/debug/
 examples/ete_racing_sim/plot/
+environment.yml
 

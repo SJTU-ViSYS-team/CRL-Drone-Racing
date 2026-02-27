@@ -1,0 +1,56 @@
+{
+  "render_asset": "../../objects/frl_apartment_tvstand.glb",
+  "collision_asset": "../../objects/convex/frl_apartment_tvstand_cv_decomp.glb",
+  "mass": 29,
+  "COM": [
+    0,
+    0,
+    0
+  ],
+  "join_collision_meshes": false,
+  "semantic_id": 88,
+  "user_defined": {
+    "receptacle_aabb_TvStnd1_Top1_frl_apartment_tvstand": {
+      "name": "receptacle_aabb_TvStnd1_Top1_frl_apartment_tvstand",
+      "parent_object": "frl_apartment_tvstand",
+      "position": [
+        -0.001201244886033237,
+        0.3416999280452728,
+        -0.03425266593694687
+      ],
+      "scale": [
+        0.7553289532661438,
+        0.09142933785915375,
+        0.24384784698486328
+      ]
+    },
+    "receptacle_aabb_TvStnd1_Top2_frl_apartment_tvstand": {
+      "name": "receptacle_aabb_TvStnd1_Top2_frl_apartment_tvstand",
+      "parent_object": "frl_apartment_tvstand",
+      "position": [
+        -0.003657281631603837,
+        0.15238867700099945,
+        -0.050632961094379425
+      ],
+      "scale": [
+        0.21599486470222473,
+        0.060774873942136765,
+        0.21926051378250122
+      ]
+    },
+    "receptacle_aabb_TvStnd1_Top3_frl_apartment_tvstand": {
+      "name": "receptacle_aabb_TvStnd1_Top3_frl_apartment_tvstand",
+      "parent_object": "frl_apartment_tvstand",
+      "position": [
+        -0.003657281631603837,
+        -0.07396259903907776,
+        -0.050632961094379425
+      ],
+      "scale": [
+        0.21699278056621552,
+        0.14145570993423462,
+        0.21926051378250122
+      ]
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "asset": {
+    "generator": "Khronos glTF Blender I/O v1.6.16",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "frl_apartment_kitchen_utensil_05",
+      "scale": [
+        0.009999999776482582,
+        0.010000000707805157,
+        0.010000000707805157
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Material #772.001",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.24545451998710632
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Mesh.016",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0
+        }
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/png",
+      "name": "Image_0",
+      "uri": "Image_0.png"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 576,
+      "max": [
+        34.221900939941406,
+        5.5483622550964355,
+        15.066329956054688
+      ],
+      "min": [
+        -34.27310562133789,
+        -7.380836009979248,
+        -15.065134048461914
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 576,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 576,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5123,
+      "count": 576,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 6912,
+      "byteOffset": 0
+    },
+    {
+      "buffer": 0,
+      "byteLength": 6912,
+      "byteOffset": 6912
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4608,
+      "byteOffset": 13824
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1152,
+      "byteOffset": 18432
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 19584,
+      "uri": "frl_apartment_kitchen_utensil_05.bin"
+    }
+  ]
+}

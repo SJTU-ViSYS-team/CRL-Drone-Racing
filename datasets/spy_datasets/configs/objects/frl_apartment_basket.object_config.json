@@ -1,0 +1,28 @@
+{
+  "render_asset": "../../objects/frl_apartment_basket.glb",
+  "collision_asset": "../../objects/convex/frl_apartment_basket_cv_decomp.glb",
+  "mass": 0.5,
+  "COM": [
+    0,
+    0,
+    0
+  ],
+  "join_collision_meshes": false,
+  "semantic_id": 3,
+  "user_defined": {
+    "receptacle_aabb_volumefrl_apartment_basket": {
+      "name": "receptacle_aabb_volumefrl_apartment_basket",
+      "parent_object": "frl_apartment_basket",
+      "position": [
+        0.0,
+        0.0,
+        -0.02796272560954094
+      ],
+      "scale": [
+        0.07694476842880249,
+        0.1227625384926796,
+        0.09645946323871613
+      ]
+    }
+  }
+}

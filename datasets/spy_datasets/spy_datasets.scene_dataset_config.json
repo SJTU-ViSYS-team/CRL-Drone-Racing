@@ -1,0 +1,216 @@
+{
+    "stages": {
+        "paths": {
+            ".json": [
+                "configs/stages"
+            ]
+        }
+    },
+    "objects": {
+        "paths": {
+            ".json": [
+                "configs/objects",
+                "configs/objects2",
+                "configs/agents",
+                "configs/self_define_objects"
+            ]
+        }
+    },
+    "articulated_objects": {
+        "paths": {
+            ".urdf": [
+                "urdf/*/",
+                "../hab_fetch_1.0/robots/fetch_no_base.urdf"
+            ]
+        }
+    },
+    "light_setups": {
+        "default_attributes": {
+            "positive_intensity_scale": 2.5,
+            "negative_intensity_scale": 0.1
+        },
+        "paths": {
+            ".json": [
+                "configs/lighting"
+            ]
+        }
+    },
+    "scene_instances": {
+        "default_attributes": {
+            "semantic_scene_instance": "replicaCAD_ssd_map"
+        },
+        "paths": {
+            ".json": [
+                "configs/scenes",
+                "configs/scenes_selected",
+                "configs/garage_empty",
+                "configs/garage_simple",
+                "configs/garage_test",
+                "configs/box_simple",
+                "configs/box_test",
+                "configs/garage_simple_l",
+                "configs/garage_simple_h",
+                "configs/garage_simple_l_long",
+                "configs/garage_landing",
+                "configs/garage_crossing",
+                "configs/garage_simple_low_m",
+                "configs/garage_simple_l_medium",
+                "configs/cross_circle",
+                "configs/avoid_crosscircle917",
+                "configs/cucrriculum_cross",
+                "configs/special_circle",
+                "configs/cross_and_avoid",
+                "configs/racing",
+                "configs/racing8",
+                "configs/racing_no_ob",
+                "configs/racing_test",
+                "configs/racing8_ob",
+                "configs/racing_straight",
+                "configs/racing_random_ob",
+                "configs/racing_straight_random",
+                "configs/demo1_straight",
+                "configs/demo1_test",
+                "configs/demo1_straight_no_ob",
+                "configs/demo2_3Dcircle",
+                "configs/demo2_3Dcircle_no_ob",
+                "configs/demo3_ellipse",
+                "configs/demo3_ellipse_no_ob",
+                "configs/demo4_8",
+                "configs/demo4_8_no_ob",
+                "configs/demo1_straight_ob1",
+                "configs/demo1_straight_random_ob",
+                "configs/demo2_3Dcircle_ob1",
+                "configs/demo2_3Dcircle_ramdom_ob",
+                "configs/demo3_ellipse_ob1",
+                "configs/demo1_straight_ob_duo",
+                "configs/demo2_3Dcircle_ob_duo",
+                "configs/demo3_ellipse_ob_duo",
+                "configs/demo3_test",
+                "configs/demo1_songjiang",
+                "configs/demo2_songjiang",
+                "configs/demo3_songjiang",
+                "configs/demo2_test",
+                "configs/demo2_empty",
+                "configs/demo3_empty"
+                
+            ]
+        }
+    },
+    "navmesh_instances": {
+        "empty_stage": "navmeshes/empty_stage.navmesh",
+        "apt_0": "navmeshes/apt_0.navmesh",
+        "apt_1": "navmeshes/apt_1.navmesh",
+        "apt_2": "navmeshes/apt_2.navmesh",
+        "apt_3": "navmeshes/apt_3.navmesh",
+        "apt_4": "navmeshes/apt_4.navmesh",
+        "apt_5": "navmeshes/apt_5.navmesh",
+        "v3_sc0_staging_00": "navmeshes/v3_sc0_staging_00.navmesh",
+        "v3_sc0_staging_01": "navmeshes/v3_sc0_staging_01.navmesh",
+        "v3_sc0_staging_02": "navmeshes/v3_sc0_staging_02.navmesh",
+        "v3_sc0_staging_03": "navmeshes/v3_sc0_staging_03.navmesh",
+        "v3_sc0_staging_04": "navmeshes/v3_sc0_staging_04.navmesh",
+        "v3_sc0_staging_05": "navmeshes/v3_sc0_staging_05.navmesh",
+        "v3_sc0_staging_06": "navmeshes/v3_sc0_staging_06.navmesh",
+        "v3_sc0_staging_07": "navmeshes/v3_sc0_staging_07.navmesh",
+        "v3_sc0_staging_08": "navmeshes/v3_sc0_staging_08.navmesh",
+        "v3_sc0_staging_09": "navmeshes/v3_sc0_staging_09.navmesh",
+        "v3_sc0_staging_10": "navmeshes/v3_sc0_staging_10.navmesh",
+        "v3_sc0_staging_11": "navmeshes/v3_sc0_staging_11.navmesh",
+        "v3_sc0_staging_12": "navmeshes/v3_sc0_staging_12.navmesh",
+        "v3_sc0_staging_13": "navmeshes/v3_sc0_staging_13.navmesh",
+        "v3_sc0_staging_14": "navmeshes/v3_sc0_staging_14.navmesh",
+        "v3_sc0_staging_15": "navmeshes/v3_sc0_staging_15.navmesh",
+        "v3_sc0_staging_16": "navmeshes/v3_sc0_staging_16.navmesh",
+        "v3_sc0_staging_17": "navmeshes/v3_sc0_staging_17.navmesh",
+        "v3_sc0_staging_18": "navmeshes/v3_sc0_staging_18.navmesh",
+        "v3_sc0_staging_19": "navmeshes/v3_sc0_staging_19.navmesh",
+        "v3_sc0_staging_20": "navmeshes/v3_sc0_staging_20.navmesh",
+        "v3_sc1_staging_00": "navmeshes/v3_sc1_staging_00.navmesh",
+        "v3_sc1_staging_01": "navmeshes/v3_sc1_staging_01.navmesh",
+        "v3_sc1_staging_02": "navmeshes/v3_sc1_staging_02.navmesh",
+        "v3_sc1_staging_03": "navmeshes/v3_sc1_staging_03.navmesh",
+        "v3_sc1_staging_04": "navmeshes/v3_sc1_staging_04.navmesh",
+        "v3_sc1_staging_05": "navmeshes/v3_sc1_staging_05.navmesh",
+        "v3_sc1_staging_06": "navmeshes/v3_sc1_staging_06.navmesh",
+        "v3_sc1_staging_07": "navmeshes/v3_sc1_staging_07.navmesh",
+        "v3_sc1_staging_08": "navmeshes/v3_sc1_staging_08.navmesh",
+        "v3_sc1_staging_09": "navmeshes/v3_sc1_staging_09.navmesh",
+        "v3_sc1_staging_10": "navmeshes/v3_sc1_staging_10.navmesh",
+        "v3_sc1_staging_11": "navmeshes/v3_sc1_staging_11.navmesh",
+        "v3_sc1_staging_12": "navmeshes/v3_sc1_staging_12.navmesh",
+        "v3_sc1_staging_13": "navmeshes/v3_sc1_staging_13.navmesh",
+        "v3_sc1_staging_14": "navmeshes/v3_sc1_staging_14.navmesh",
+        "v3_sc1_staging_15": "navmeshes/v3_sc1_staging_15.navmesh",
+        "v3_sc1_staging_16": "navmeshes/v3_sc1_staging_16.navmesh",
+        "v3_sc1_staging_17": "navmeshes/v3_sc1_staging_17.navmesh",
+        "v3_sc1_staging_18": "navmeshes/v3_sc1_staging_18.navmesh",
+        "v3_sc1_staging_19": "navmeshes/v3_sc1_staging_19.navmesh",
+        "v3_sc1_staging_20": "navmeshes/v3_sc1_staging_20.navmesh",
+        "v3_sc2_staging_00": "navmeshes/v3_sc2_staging_00.navmesh",
+        "v3_sc2_staging_01": "navmeshes/v3_sc2_staging_01.navmesh",
+        "v3_sc2_staging_02": "navmeshes/v3_sc2_staging_02.navmesh",
+        "v3_sc2_staging_03": "navmeshes/v3_sc2_staging_03.navmesh",
+        "v3_sc2_staging_04": "navmeshes/v3_sc2_staging_04.navmesh",
+        "v3_sc2_staging_05": "navmeshes/v3_sc2_staging_05.navmesh",
+        "v3_sc2_staging_06": "navmeshes/v3_sc2_staging_06.navmesh",
+        "v3_sc2_staging_07": "navmeshes/v3_sc2_staging_07.navmesh",
+        "v3_sc2_staging_08": "navmeshes/v3_sc2_staging_08.navmesh",
+        "v3_sc2_staging_09": "navmeshes/v3_sc2_staging_09.navmesh",
+        "v3_sc2_staging_10": "navmeshes/v3_sc2_staging_10.navmesh",
+        "v3_sc2_staging_11": "navmeshes/v3_sc2_staging_11.navmesh",
+        "v3_sc2_staging_12": "navmeshes/v3_sc2_staging_12.navmesh",
+        "v3_sc2_staging_13": "navmeshes/v3_sc2_staging_13.navmesh",
+        "v3_sc2_staging_14": "navmeshes/v3_sc2_staging_14.navmesh",
+        "v3_sc2_staging_15": "navmeshes/v3_sc2_staging_15.navmesh",
+        "v3_sc2_staging_16": "navmeshes/v3_sc2_staging_16.navmesh",
+        "v3_sc2_staging_17": "navmeshes/v3_sc2_staging_17.navmesh",
+        "v3_sc2_staging_18": "navmeshes/v3_sc2_staging_18.navmesh",
+        "v3_sc2_staging_19": "navmeshes/v3_sc2_staging_19.navmesh",
+        "v3_sc2_staging_20": "navmeshes/v3_sc2_staging_20.navmesh",
+        "v3_sc3_staging_00": "navmeshes/v3_sc3_staging_00.navmesh",
+        "v3_sc3_staging_01": "navmeshes/v3_sc3_staging_01.navmesh",
+        "v3_sc3_staging_02": "navmeshes/v3_sc3_staging_02.navmesh",
+        "v3_sc3_staging_03": "navmeshes/v3_sc3_staging_03.navmesh",
+        "v3_sc3_staging_04": "navmeshes/v3_sc3_staging_04.navmesh",
+        "v3_sc3_staging_05": "navmeshes/v3_sc3_staging_05.navmesh",
+        "v3_sc3_staging_06": "navmeshes/v3_sc3_staging_06.navmesh",
+        "v3_sc3_staging_07": "navmeshes/v3_sc3_staging_07.navmesh",
+        "v3_sc3_staging_08": "navmeshes/v3_sc3_staging_08.navmesh",
+        "v3_sc3_staging_09": "navmeshes/v3_sc3_staging_09.navmesh",
+        "v3_sc3_staging_10": "navmeshes/v3_sc3_staging_10.navmesh",
+        "v3_sc3_staging_11": "navmeshes/v3_sc3_staging_11.navmesh",
+        "v3_sc3_staging_12": "navmeshes/v3_sc3_staging_12.navmesh",
+        "v3_sc3_staging_13": "navmeshes/v3_sc3_staging_13.navmesh",
+        "v3_sc3_staging_14": "navmeshes/v3_sc3_staging_14.navmesh",
+        "v3_sc3_staging_15": "navmeshes/v3_sc3_staging_15.navmesh",
+        "v3_sc3_staging_16": "navmeshes/v3_sc3_staging_16.navmesh",
+        "v3_sc3_staging_17": "navmeshes/v3_sc3_staging_17.navmesh",
+        "v3_sc3_staging_18": "navmeshes/v3_sc3_staging_18.navmesh",
+        "v3_sc3_staging_19": "navmeshes/v3_sc3_staging_19.navmesh",
+        "v3_sc3_staging_20": "navmeshes/v3_sc3_staging_20.navmesh",
+        "v3_sc4_staging_00": "navmeshes/v3_sc4_staging_00.navmesh",
+        "v3_sc4_staging_01": "navmeshes/v3_sc4_staging_01.navmesh",
+        "v3_sc4_staging_02": "navmeshes/v3_sc4_staging_02.navmesh",
+        "v3_sc4_staging_03": "navmeshes/v3_sc4_staging_03.navmesh",
+        "v3_sc4_staging_04": "navmeshes/v3_sc4_staging_04.navmesh",
+        "v3_sc4_staging_05": "navmeshes/v3_sc4_staging_05.navmesh",
+        "v3_sc4_staging_06": "navmeshes/v3_sc4_staging_06.navmesh",
+        "v3_sc4_staging_07": "navmeshes/v3_sc4_staging_07.navmesh",
+        "v3_sc4_staging_08": "navmeshes/v3_sc4_staging_08.navmesh",
+        "v3_sc4_staging_09": "navmeshes/v3_sc4_staging_09.navmesh",
+        "v3_sc4_staging_10": "navmeshes/v3_sc4_staging_10.navmesh",
+        "v3_sc4_staging_11": "navmeshes/v3_sc4_staging_11.navmesh",
+        "v3_sc4_staging_12": "navmeshes/v3_sc4_staging_12.navmesh",
+        "v3_sc4_staging_13": "navmeshes/v3_sc4_staging_13.navmesh",
+        "v3_sc4_staging_14": "navmeshes/v3_sc4_staging_14.navmesh",
+        "v3_sc4_staging_15": "navmeshes/v3_sc4_staging_15.navmesh",
+        "v3_sc4_staging_16": "navmeshes/v3_sc4_staging_16.navmesh",
+        "v3_sc4_staging_17": "navmeshes/v3_sc4_staging_17.navmesh",
+        "v3_sc4_staging_18": "navmeshes/v3_sc4_staging_18.navmesh",
+        "v3_sc4_staging_19": "navmeshes/v3_sc4_staging_19.navmesh",
+        "v3_sc4_staging_20": "navmeshes/v3_sc4_staging_20.navmesh"
+    },
+    "semantic_scene_descriptor_instances": {
+        "replicaCAD_ssd_map": "configs/ssd/replicaCAD_semantic_lexicon.json"
+    }
+}

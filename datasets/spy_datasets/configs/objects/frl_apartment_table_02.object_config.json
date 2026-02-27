@@ -1,0 +1,56 @@
+{
+  "render_asset": "../../objects/frl_apartment_table_02.glb",
+  "collision_asset": "../../objects/convex/frl_apartment_table_02_cv_decomp.glb",
+  "mass": 24,
+  "COM": [
+    0,
+    0,
+    0
+  ],
+  "join_collision_meshes": false,
+  "semantic_id": 80,
+  "user_defined": {
+    "receptacle_aabb_Tbl2_Top1_frl_apartment_table_02": {
+      "name": "receptacle_aabb_Tbl2_Top1_frl_apartment_table_02",
+      "parent_object": "frl_apartment_table_02",
+      "position": [
+        0.008777514100074768,
+        0.4683433473110199,
+        0.04407323896884918
+      ],
+      "scale": [
+        0.6336050629615784,
+        0.13657596707344055,
+        0.397293359041214
+      ]
+    },
+    "receptacle_aabb_Tbl2_Top2_frl_apartment_table_02": {
+      "name": "receptacle_aabb_Tbl2_Top2_frl_apartment_table_02",
+      "parent_object": "frl_apartment_table_02",
+      "position": [
+        0.007401600480079651,
+        0.09092544764280319,
+        -0.08688198775053024
+      ],
+      "scale": [
+        0.5606533288955688,
+        0.13657596707344055,
+        0.1616218239068985
+      ]
+    },
+    "receptacle_aabb_Tbl2_Top3_frl_apartment_table_02": {
+      "name": "receptacle_aabb_Tbl2_Top3_frl_apartment_table_02",
+      "parent_object": "frl_apartment_table_02",
+      "position": [
+        0.007401600480079651,
+        -0.2414005696773529,
+        -0.08688198775053024
+      ],
+      "scale": [
+        0.5606533288955688,
+        0.13657596707344055,
+        0.1616218239068985
+      ]
+    }
+  }
+}

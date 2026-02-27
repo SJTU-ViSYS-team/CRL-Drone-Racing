@@ -1,0 +1,41 @@
+{
+    "stage_instance": {
+        "template_name": "stages/garage_v1"
+    },
+    "default_lighting": "garage_v1_0",
+    "object_instances": [
+        {
+            "template_name": "frl_apartment_table_01",
+            "translation": [
+                0,
+                -0.095,
+                -2
+            ],
+            "rotation": [
+                1,
+                0,
+                0,
+                0
+            ],
+            "non_uniform_scale": [0.35,1,0.6],
+            "motion_type": "STATIC",
+            "translation_origin": "COM"
+        }
+    ],
+    "articulated_object_instances": [],
+    "user_custom": {
+        "bound": [
+            [
+                0,
+                -7,
+                0
+            ],
+            [
+                18,
+                7,
+                5.0
+            ]
+        ]
+    },
+    "navmesh_instance": "empty_stage_navmesh"
+}
