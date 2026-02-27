@@ -138,13 +138,13 @@ If you find this repository useful in your research, please cite the correspondi
 Since this project is built on **VisFly**, please also cite the VisFly simulator:
 
 ```text
-@misc{li2024visfly,
-  title         = {VisFly: An Efficient and Versatile Simulator for Training Vision-based Flight},
-  author        = {Fanxing Li and Fangyu Sun and Tianbao Zhang and Danping Zou},
-  year          = {2024},
-  eprint        = {2407.14783},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.RO},
-  url           = {https://arxiv.org/abs/2407.14783}
-}
+@INPROCEEDINGS{11128458,
+  author={Li, Fanxing and Sun, Fangyu and Zhang, Tianbao and Zou, Danping},
+  booktitle={2025 IEEE International Conference on Robotics and Automation (ICRA)}, 
+  title={VisFly: An Efficient and Versatile Simulator for Training Vision-Based Flight}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={11325-11332},
+  doi={10.1109/ICRA55743.2025.11128458}}
 ```
