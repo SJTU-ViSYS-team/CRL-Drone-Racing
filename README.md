@@ -5,20 +5,16 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Official implementation of the ICRA 2026 paper  
-**“Curriculum Reinforcement Learning for Quadrotor Racing with Random Obstacles”**,  
-built on top of the **VisFly** simulator [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
+**“Curriculum Reinforcement Learning for Quadrotor Racing with Random Obstacles”**.
 
 ---
-
 ### Video
 
 - YouTube demo: [`https://youtu.be/_u7rpTWxA-I`](https://youtu.be/_u7rpTWxA-I)
-- Clickable thumbnail:
 
 [![Video Demo](https://img.youtube.com/vi/_u7rpTWxA-I/hqdefault.jpg)](https://youtu.be/_u7rpTWxA-I)
 
 ---
-
 ### Abstract
 
 ```text
@@ -44,11 +40,9 @@ simulation (see the VisFly paper for details).
 
 Concretely:
 
-- We build our **racing and waypoint environments** by extending VisFly’s environment interfaces (`envs/`).
+- We build our **racing in cluttered environments** by extending VisFly’s environment interfaces (`envs/`).
 - We reuse and adapt VisFly’s **dynamics, randomization, and rendering pipeline**, including the
   `datasets/spy_datasets` format.
-- We add new **curriculum reinforcement learning pipelines** and task-specific environments for quadrotor racing
-  with random obstacles.
 
 For more information about the underlying simulator, please refer to the VisFly repository  
 [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly) and its README.
@@ -64,31 +58,51 @@ For more information about the underlying simulator, please refer to the VisFly 
 - `examples/ete_racing_sim/` – end-to-end racing training and evaluation scripts in simulation.
 - `examples/ete_racing_real/` – ROS bag processing, dynamics fitting, and sim-to-real deployment tools.
 
-Large datasets, trained weights and some auxiliary examples are intentionally kept local (see notes below)  
-to keep the public repository compact.
-
 ---
 
 ### Installation
 
-We recommend using **Conda** to manage dependencies.
+We follow the same dependency stack as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).  
+
+#### 1. 克隆本仓库
+
+```bash
+git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
+cd CRL-Drone-Racing
+```
+
+（如果你使用的是个人仓库，请将 URL 替换为对应地址。）
+
+#### 2. 创建并激活 Conda 环境
 
 ```bash
 conda env create -f environment.yml
-conda activate vision-racing
+conda activate CRL-racing
 ```
 
-High-level requirements:
+该环境大致包含：
 
 - Python 3.x  
-- PyTorch with CUDA (for GPU training)  
-- Habitat-Sim / rendering dependencies (same family as VisFly)  
+- PyTorch + CUDA（用于 GPU 训练）  
+- 与 VisFly 一致的 Habitat-Sim 及渲染依赖  
 
-Please refer to `environment.yml` for exact package versions.  
-For more details about Habitat-Sim and dataset preparation, you may also refer to
-[`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
+#### 3. 安装 CGAL（几何库依赖，与 VisFly 一致）
 
----
+```bash
+sudo apt-get install libcgal-dev
+```
+
+如遇到编译或依赖问题，可参考 CGAL 官方安装文档。
+
+#### 4. 安装修改版 Habitat-Sim（如果尚未按 VisFly 安装）
+
+本工程与 VisFly 共用一套经过修改的 Habitat-Sim，你可以参考 VisFly 的说明进行安装，例如：
+
+```bash
+git clone https://github.com/Fanxing-LI/habitat-sim
+cd habitat-sim
+# 然后按照 Habitat-Sim 官方文档中的 “Build from Source” 步骤编译安装
+```
 
 ### Quick start – train a racing policy in simulation
 
@@ -172,4 +186,3 @@ Since this project is built on **VisFly**, please also cite the VisFly simulator
 
 This project is released under the **MIT License**. See the `LICENSE` file for details.  
 Please also follow the licenses of any third-party dependencies (including VisFly and Habitat-Sim).
-
