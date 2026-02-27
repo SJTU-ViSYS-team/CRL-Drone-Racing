@@ -1221,7 +1221,6 @@ class StateIndexVdImageExtractor(BaseFeaturesExtractor):
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
         
-        # 处理image的卷积层
 
         _image_features_dims = []
         self._image_extractor_names = []
