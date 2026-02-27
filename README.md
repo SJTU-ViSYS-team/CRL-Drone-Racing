@@ -44,7 +44,20 @@ Concretely:
 
 ---
 
-### Quick start - train and test a racing and obstacle-avoidance policy in simulation
+### Environment setup
+
+Use the same environment setup as **VisFly** [`SJTU-ViSYS-team/VisFly`](https://github.com/SJTU-ViSYS-team/VisFly).
+
+```bash
+conda env create -f environment.yml
+conda activate visfly
+```
+
+If Habitat-Sim or system dependencies are missing, follow the VisFly installation guide directly.
+
+---
+
+### Quick start - train and test in simulation
 
 1. Clone this repository:
 
@@ -53,50 +66,27 @@ git clone https://github.com/SJTU-ViSYS-team/CRL-Drone-Racing.git
 cd CRL-Drone-Racing
 ```
 
-2. Set up the Conda environment (same dependency stack as **VisFly**):
+2. Prepare datasets and scene configs under `datasets/spy_datasets/configs/`.
+
+3. Start training:
 
 ```bash
-conda env create -f environment.yml
-conda activate visfly
+python examples/ete_racing_sim/run.py -t 1
 ```
 
-3. **Prepare datasets and scenes**
+4. Evaluate a trained model:
 
-   Place the simulator datasets and scene configs under:
+```bash
+python examples/ete_racing_sim/run.py -t 0 -w <saved_model_name>
+```
 
-   - `datasets/spy_datasets/configs/`
-
-   You can use `examples/ete_racing_sim/run.py` as a reference and adjust the `scene_path` variable
-   to point to your desired track configuration.
-
-4. **Start training**
-
-   ```bash
-   python examples/ete_racing_sim/run.py -t 1
-   ```
-
-5. **Evaluate a trained model**
-
-   ```bash
-   python examples/ete_racing_sim/racing_demo.py -t 0 -w <saved_model_name>
-   ```
-
-### 
 ---
 
-### Advanced Guide: Customizing or Replacing Simulation Tracks
+### Advanced guide: customizing simulation tracks
 
-1. **Create or Acquire Scene Models**
-
-   - You can handcraft track scenes using [Blender](https://www.blender.org) or similar 3D modeling software, or directly download publicly available `.glb` models (ensure they include proper collision geometry, i.e., “physically inflated glb”). Place these files in `datasets/spy_datasets/self_define_objects/`.
-
-2. **Add Scene JSON Configuration**
-
-   - Refer to the file structure and examples used by [`VisFly`](https://github.com/SJTU-ViSYS-team/VisFly`) (especially how habitat-sim scene JSONs are organized). You’ll need to provide a corresponding `.json` configuration for each new scene config.
-
-3. **Train or Evaluate with New Scenes**
-
-   - In your training/testing script (e.g., `examples/ete_racing_sim/run.py`), update the `scene_path` variable to point to your custom scene configuration file.
+1. Create or download `.glb` track assets and place them in `datasets/spy_datasets/self_define_objects/`.
+2. Add matching scene JSON configs following the VisFly scene format.
+3. Update `scene_path` in `examples/ete_racing_sim/run.py` to use your custom track.
 
 ---
 
@@ -127,3 +117,4 @@ Since this project is built on **VisFly**, please also cite the VisFly simulator
   pages={11325-11332},
   doi={10.1109/ICRA55743.2025.11128458}}
 ```
+
