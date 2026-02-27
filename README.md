@@ -117,4 +117,3 @@ Since this project is built on **VisFly**, please also cite the VisFly simulator
   pages={11325-11332},
   doi={10.1109/ICRA55743.2025.11128458}}
 ```
-
