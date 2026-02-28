@@ -3,6 +3,8 @@
 [![Conference](https://img.shields.io/badge/ICRA-2026-red.svg)](https://www.ieee-ras.org/conferences-workshops/fully-sponsored/icra)
 [![Simulator](https://img.shields.io/badge/Simulator-VisFly-brightgreen.svg)](https://github.com/SJTU-ViSYS-team/VisFly)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04-E95420?logo=ubuntu)](https://ubuntu.com/)
+[![Python](https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
 Official implementation of the ICRA 2026 paper  
 **“Curriculum Reinforcement Learning for Quadrotor Racing with Random Obstacles”**.
