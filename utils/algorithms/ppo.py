@@ -451,7 +451,7 @@ class OnPolicyAlgorithm(BaseAlgorithm):
         # Switch to eval mode (this affects batch norm / dropout)
         self.policy.set_training_mode(False)
         
-        # 初始化误差累计
+        # Initialize the accumulated error (if used)
         total_error = 0.0
         error_count = 0
         n_steps = 0
@@ -497,7 +497,7 @@ class OnPolicyAlgorithm(BaseAlgorithm):
 
             new_obs, rewards, dones, infos = env.step(clipped_actions) #transfer action to dynamic
             
-            # # 获取位置误差
+            # # Compute position error (example)
             # position_errors = []
             # for i, env_instance in enumerate(env.envs):
             #     if hasattr(env_instance, 'get_position_error'):
@@ -647,7 +647,8 @@ class OnPolicyAlgorithm(BaseAlgorithm):
                     # if self.num_timesteps % 100000 == 0:
                     #     self.save(self.policy_save_path+"core_dumped")
                     if self.num_timesteps % 10000000 == 0:
-                        save_path = self.policy_save_path + "core_dumped_model.zip"  # 固定文件名+扩展名
+                        # Fixed filename with extension for periodic core dumps
+                        save_path = self.policy_save_path + "core_dumped_model.zip"
                         self.save(save_path)
 
         except KeyboardInterrupt:

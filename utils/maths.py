@@ -313,37 +313,37 @@ def debug():
 
 def pixel_to_body(pixel_coords, depth, camera_intrinsics, camera_extrinsics):
     """
-    将二维图像坐标转换为三维机体坐标
+    Convert 2D image pixel coordinates to 3D body-frame coordinates.
 
-    参数:
-    - pixel_coords: 二维图像坐标 (u, v)
-    - depth: 深度值
-    - camera_intrinsics: 相机内参矩阵 (3x3)
-    - camera_extrinsics: 相机外参矩阵 (4x4)
+    Args:
+        pixel_coords: 2D pixel coordinates (u, v).
+        depth: Depth value at the pixel.
+        camera_intrinsics: 3x3 camera intrinsic matrix.
+        camera_extrinsics: 4x4 camera extrinsic matrix.
 
-    返回:
-    - world_coords: 三维世界坐标 (x, y, z)
+    Returns:
+        3D body-frame coordinates (x, y, z).
     """
-    # 将像素坐标转换为齐次坐标
+    # Convert pixel coordinates to homogeneous coordinates
     u, v = pixel_coords
     pixel_homogeneous = np.array([u, v, 1])
 
-    # 计算相机坐标
+    # Compute camera-frame coordinates
     camera_coords = np.linalg.inv(camera_intrinsics).dot(pixel_homogeneous) * depth
 
-    # 将相机坐标转换为齐次坐标
+    # Convert camera coordinates to homogeneous coordinates
     camera_coords_homogeneous = np.append(camera_coords, 1)
 
-    # 计算世界坐标
+    # Compute body-frame coordinates
     body_coords_homogeneous = np.linalg.inv(camera_extrinsics).dot(camera_coords_homogeneous)
     body_coords = body_coords_homogeneous[:3] / body_coords_homogeneous[3]
     
-    # #对坐标进行处理
+    # # Optional post-processing on coordinates
     # # rotation_y = R.from_euler('y', 90, degrees=True).as_matrix()
     # rotation_z = R.from_euler('z', 180, degrees=True).as_matrix()
     # rotation_x = R.from_euler('x', 90, degrees=True).as_matrix()
     
-    # # 组合旋转矩阵
+    # # Compose rotation matrix
     # rotation_matrix = rotation_z.dot(rotation_x)
     # world_coords = rotation_matrix.dot(world_coords)
     
@@ -352,9 +352,13 @@ def pixel_to_body(pixel_coords, depth, camera_intrinsics, camera_extrinsics):
 
 def quat_to_matrix(quat):
     """
-    将四元数转换为旋转矩阵。
-    :param quat: 四元数 [w, x, y, z]
-    :return: 旋转矩阵 3x3
+    Convert a quaternion into a rotation matrix.
+
+    Args:
+        quat: Quaternion [w, x, y, z].
+
+    Returns:
+        3x3 rotation matrix.
     """
     w, x, y, z = quat.w, quat.x, quat.y, quat.z
     return np.array([

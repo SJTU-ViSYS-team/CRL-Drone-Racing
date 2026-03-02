@@ -80,7 +80,7 @@ class TestBase:
         self.collision_all.append({"col_dis": self.model.env.collision_dis,
                                    "is_col": self.model.env.is_collision,
                                    "col_pt": self.model.env.collision_point})
-        step_count = 0  # 初始化步长计数器
+        step_count = 0  # Initialize step counter
         
         while True:
             with th.no_grad():
@@ -126,10 +126,10 @@ class TestBase:
                 render_image = cv2.cvtColor(self.model.env.render(render_kwargs)[0], cv2.COLOR_RGBA2RGB)
                 self.render_image_all.append(render_image)
             done_all[done.to(th.bool)] = True
-            
-            step_count += 1  # 增加步长计数器
-            
-            # 检查是否达到最大步长或所有环境都完成
+
+            step_count += 1  # Increase step counter
+
+            # Check whether all envs are done
             if done_all.all() :
                 break
             
@@ -197,7 +197,7 @@ class TestBase:
                 width, height = self.obs_all[0][name].shape[3]*self.obs_all[0][name].shape[0], self.obs_all[0][name].shape[2]
                 video_obs.append(cv2.VideoWriter(path_obs[-1], cv2.VideoWriter_fourcc(*'mp4v'), 30, (width, height)))
 
-        # 将图片写入视频
+        # Write images to video
         for index, (image, t, obs) in enumerate(zip(self.render_image_all, self.t, self.obs_all)):
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
             video.write(image)

@@ -312,7 +312,7 @@ class ChildrenPathDataset(Dataset):
     def __init__(self, root_path, type="glb", semantic=False):
         """
         Args:
-            strings (list): 一个包含字符串的列表.
+            strings (list): A list of path strings.
         """
         self.root_path = root_path
         self.type = type
@@ -346,13 +346,13 @@ class ChildrenPathDataset(Dataset):
 
     def __getitem__(self, indice):
         """
-        返回索引为 indice 的字符串.
+        Return the string at the given index.
 
         Args:
-            indice (int): 数据的索引.
+            indice (int): Index of the data.
 
         Returns:
-            string (str): 索引为 indice 的字符串.
+            string (str): String at index `indice`.
         """
         return self.paths[indice]
 

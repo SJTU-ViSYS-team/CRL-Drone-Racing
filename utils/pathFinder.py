@@ -6,11 +6,13 @@ from magnum import Range3D
 class PRMPlanner:
     def __init__(self, bounds, num_samples, obstacle_func, k=10, scene_id=None):
         """
-        初始化PRM规划器。
-        :param bounds: 空间的边界，形如((min_x, max_x), (min_y, max_y), (min_z, max_z))
-        :param num_samples: 随机采样的数量
-        :param obstacle_func: 障碍物检测函数，输入为点坐标，输出为布尔值，True表示是障碍物
-        :param k: 构建路线图时每个节点的近邻数量
+        Initialize a Probabilistic Roadmap (PRM) planner.
+
+        Args:
+            bounds: Workspace bounds, shaped like ((min_x, max_x), (min_y, max_y), (min_z, max_z)).
+            num_samples: Number of random samples to draw.
+            obstacle_func: Obstacle checking function. Takes a point and scene_id, returns True if in obstacle.
+            k: Number of nearest neighbors used when building the roadmap.
         """
         self._bounds = None
         self.bounds = bounds
@@ -24,7 +26,7 @@ class PRMPlanner:
 
 
     def sample_free_space(self):
-        """在自由空间内随机采样点"""
+        """Sample random points in free space."""
         while len(self.samples) < self.num_samples:
             point = np.random.uniform([b[0] for b in self._bounds], [b[1] for b in self._bounds])
             if not self.obstacle_func(point, self.scene_id):
@@ -36,29 +38,30 @@ class PRMPlanner:
         self.build_roadmap()
 
     def build_roadmap(self):
-        """构建路线图"""
-        # 使用KDTree快速查找近邻
+        """Build the roadmap graph."""
+        # Use KDTree to speed up neighbor search
         tree = KDTree(self.samples)
-        # 构建近邻图
+        # Build a k-nearest-neighbor graph
         A = kneighbors_graph(self.samples, self.k, mode='distance', metric='euclidean', include_self=False)
         A = A.toarray()
         
-        # 添加边到图中
+        # Add edges into the graph
         for i, neighbors in enumerate(A):
             for j, dist in enumerate(neighbors):
-                if dist > 0 and not self.obstacle_func((self.samples[i] + self.samples[j]) / 2, self.scene_id):  # 确保路径中间没有障碍物
+                # Ensure the midpoint of the edge is not inside an obstacle
+                if dist > 0 and not self.obstacle_func((self.samples[i] + self.samples[j]) / 2, self.scene_id):
                     self.graph.add_edge(i, j, weight=dist)
 
     def plan(self, start, goal):
-        """规划从起点到终点的路径"""
-        # 将起点和终点加入图中
+        """Plan a path from start to goal."""
+        # Add start and goal into the graph
         start_idx = len(self.samples)
         goal_idx = start_idx + 1
         self.samples = np.vstack([self.samples, start, goal])
         self.graph.add_node(start_idx)
         self.graph.add_node(goal_idx)
         
-        # 将起点和终点连接到图中
+        # Connect start and goal to existing graph
         tree = KDTree(self.samples)
         start_neighbors = tree.query(start, self.k)[1]
         goal_neighbors = tree.query(goal, self.k)[1]
@@ -70,7 +73,7 @@ class PRMPlanner:
             if not self.obstacle_func((goal + self.samples[neighbor]) / 2, self.scene_id):
                 self.graph.add_edge(goal_idx, neighbor, weight=np.linalg.norm(goal - self.samples[neighbor]))
         
-        # 使用A*算法查找最短路径
+        # Use A* to search for the shortest path
         path = nx.astar_path(self.graph, start_idx, goal_idx, heuristic=lambda a, b: np.linalg.norm(self.samples[a] - self.samples[b]))
         return [self.samples[i] for i in path]
 
@@ -85,7 +88,7 @@ class PRMPlanner:
         else:
             self._bounds = bounds
 
-def debug():
+    def debug():
     def draw_ball(ax, data):
         center = data[:3]
         radius = data[3]
@@ -107,10 +110,10 @@ def debug():
         return np.c_[pos, r]
     balls = ball_generate(ball_num)
     
-    # 示例：定义障碍物检测函数
+    # Example: define an obstacle checking function
     def is_obstacle(point, scene_id=None):
         is_ob = False
-        # 假设有一个球形障碍物在空间中心
+        # Assume a spherical obstacle at the center of the space
         for data in balls:
             center = data[:3]
             radius = data[3]
@@ -122,7 +125,7 @@ def debug():
 
     import time
     
-    # 创建PRM规划器实例
+    # Create PRM planner instance
     start = time.time()
     planner = PRMPlanner(bounds=((0, 10), (0, 10), (0, 10)), num_samples=500, obstacle_func=is_obstacle, k=10,scene_id=0)
     planner.pre_plan()
@@ -130,7 +133,7 @@ def debug():
     # planner.build_roadmap()
     end = time.time()
     print(f"time:{end-start}%5f")
-    # 规划路径
+    # Plan path
     start = np.array([1, 1, 1])
     goal = np.array([9, 3, 3])
     path = planner.plan(start, goal)

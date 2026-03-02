@@ -892,32 +892,32 @@ class FullDictReplayBuffer(DictReplayBuffer):
 
 def compute_td_returns(r, done, next_value, episode_done=None, gamma=0.99, lamda=0.95):
     h = len(r)
-    num_envs = r[0].shape[0]  # 环境数量
-    returns = [th.zeros(num_envs, dtype=th.float32) for _ in range(h)]  # 初始化返回值列表
+    num_envs = r[0].shape[0]  # number of environments
+    returns = [th.zeros(num_envs, dtype=th.float32) for _ in range(h)]  # buffer for TD-λ returns
     episode_done = done if episode_done is None else episode_done
 
-    # 初始化 Ai、Bi 和 lam
+    # Initialize Ai, Bi and λ
     Ai = th.zeros(num_envs, dtype=th.float32, device=r[0].device)
     Bi = th.zeros(num_envs, dtype=th.float32, device=r[0].device)
     lam = th.ones(num_envs, dtype=th.float32, device=r[0].device)
     Bi = next_value[-1] * (~done[-1])
-    # 反向循环计算 TD-λ 返回值
+    # Compute TD-λ returns in reverse time order
     for t in reversed(range(h)):
-        active = ~done[t]  # 未终止的环境掩码，1 表示未终止，0 表示已终止
-        done_mask = done[t]  # 终止的环境掩码，1 表示已终止，0 表示未终止
+        active = ~done[t]       # mask of non-terminal envs (True if not done)
+        done_mask = done[t]     # mask of terminated envs (True if done)
         episode_active = ~episode_done[t]
-        # 更新 lam，对于已终止的环境，将 lam 重置为 1
+        # Update λ; reset to 1 for terminated envs
         lam = lam * lamda * active + done_mask
 
-        # 更新 Ai
+        # Update Ai
         Ai = active * (
                 lamda * gamma * Ai + gamma * next_value[t] + ((1.0 - lam) / (1.0 - lamda)) * r[t]
         )
 
-        # 更新 Bi
+        # Update Bi
         Bi = gamma * (next_value[t] * done_mask * episode_active + Bi * active) + r[t]
 
-        # 计算目标返回值
+        # Compute final target return
         returns[t] = (1.0 - lamda) * Ai + lam * Bi
 
     return returns

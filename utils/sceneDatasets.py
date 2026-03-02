@@ -864,7 +864,8 @@ class SceneManager(ABC):
             sensor_spec.uuid = sensor_cfg.get("uuid", "color")
             sensor_spec.resolution = sensor_cfg.get("resolution", [128, 128])
             sensor_spec.orientation = mn.Vector3(sensor_cfg.get("orientation", [0., 0, 0]))
-            # sensor_spec.position = mn.Vector3(sensor_cfg.get("position", [0, 0, -0.2]))#json坐标，可以直接在env里面进行更改
+            # sensor_spec.position = mn.Vector3(sensor_cfg.get("position", [0, 0, -0.2]))
+            # JSON coordinates; can be modified directly inside the env
             sensor_spec.position = mn.Vector3(sensor_cfg.get("position", [0, 0, 0]))
             if type(sensor_cfg.get("sensor_type", habitat_sim.SensorType.COLOR)) != habitat_sim._ext.habitat_sim_bindings.SensorType:
                 continue

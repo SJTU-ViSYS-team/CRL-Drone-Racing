@@ -260,11 +260,11 @@ class ImageExtractor(BaseFeaturesExtractor):
         for key in observation_space.keys():
             assert key in "image" in key or "color" in key or "depth" in key
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ImageExtractor, self).__init__(observation_space=observation_space,
                                              features_dim=self.features_dim)
-        # 处理image的卷积层
+        # Convolution layers for image observations
         self._image_features_dims = []
         self.image_extractor_names = []
         for key in observation_space.keys():
@@ -294,7 +294,7 @@ class StateTargetExtractor(BaseFeaturesExtractor):
         obs_keys = list(observation_space.keys())
         assert ("state" in obs_keys) and ("target" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateTargetExtractor, self).__init__(observation_space=observation_space,
                                                    features_dim=self.features_dim)
@@ -332,7 +332,7 @@ class StateTargetImageExtractor(CustomBaseFeaturesExtractor):
                and ("target" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateTargetImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -340,7 +340,7 @@ class StateTargetImageExtractor(CustomBaseFeaturesExtractor):
         _state_features_dim = set_mlp_feature_extractor(self, "state", observation_space["state"], net_arch.get("state", {}), activation_fn)
         _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
 
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -360,7 +360,7 @@ class StateTargetImageExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并state,target特征和image特征
+        # Merge state/target features and image features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -391,16 +391,16 @@ class ActionImageExtractor(CustomBaseFeaturesExtractor):
                and ("index" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
 
-        # 这里的名字要与下面extractor的名字一致。pastAction_extractor
+        # The name must match the extractor defined below, e.g. pastAction_extractor
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
 
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -420,7 +420,7 @@ class ActionImageExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -451,7 +451,7 @@ class ActionImageMaskExtractor(CustomBaseFeaturesExtractor):
                 and ("index" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys or "mask" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionImageMaskExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -460,7 +460,7 @@ class ActionImageMaskExtractor(CustomBaseFeaturesExtractor):
         # _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image/mask observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -482,7 +482,7 @@ class ActionImageMaskExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -514,16 +514,16 @@ class ActionImageMaskNoiseExtractor(CustomBaseFeaturesExtractor):
                 and("index" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys or "mask" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionImageMaskNoiseExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
 
-        # 这里的名字要与下面extractor的名字一致。pastAction_extractor
+        # The name must match the extractor defined below, e.g. pastAction_extractor
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _noise_target_features_dim = set_mlp_feature_extractor(self, "noise_target", observation_space["noise_target"], net_arch.get("noise_target", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image/mask observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -544,7 +544,7 @@ class ActionImageMaskNoiseExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -577,17 +577,17 @@ class ActionImageMaskNoiseIndexExtractor(CustomBaseFeaturesExtractor):
                 and ("index" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys or "mask" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionImageMaskNoiseIndexExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
 
-        # 这里的名字要与下面extractor的名字一致。pastAction_extractor
+        # The name must match the extractor defined below, e.g. pastAction_extractor
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _noise_target_features_dim = set_mlp_feature_extractor(self, "noise_target", observation_space["noise_target"], net_arch.get("noise_target", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
         
-        # 处理image的卷积层
+        # Convolution layers for image/mask observations
         _image_features_dims = []
         self._image_extractor_names = []
         for key in observation_space.keys():
@@ -607,7 +607,7 @@ class ActionImageMaskNoiseIndexExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -638,7 +638,7 @@ class ActionStateImageMaskExtractor(CustomBaseFeaturesExtractor):
                 and ("index" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys or "mask" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionStateImageMaskExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -647,7 +647,7 @@ class ActionStateImageMaskExtractor(CustomBaseFeaturesExtractor):
         # _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image/mask observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -669,7 +669,7 @@ class ActionStateImageMaskExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -700,7 +700,7 @@ class ActionStateImageIndexExtractor(BaseFeaturesExtractor):
                 and ("index" in obs_keys)\
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionStateImageIndexExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -709,7 +709,7 @@ class ActionStateImageIndexExtractor(BaseFeaturesExtractor):
         # _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -731,7 +731,7 @@ class ActionStateImageIndexExtractor(BaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -764,7 +764,7 @@ class ActionStateTargetImageMaskIndexExtractor(CustomBaseFeaturesExtractor):
                and ("pastAction" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys or "mask" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionStateTargetImageMaskIndexExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -773,7 +773,7 @@ class ActionStateTargetImageMaskIndexExtractor(CustomBaseFeaturesExtractor):
         _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -795,7 +795,7 @@ class ActionStateTargetImageMaskIndexExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -827,7 +827,7 @@ class ActionStateTargetImageExtractor(CustomBaseFeaturesExtractor):
                and ("pastAction" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionStateTargetImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -835,7 +835,7 @@ class ActionStateTargetImageExtractor(CustomBaseFeaturesExtractor):
         _state_features_dim = set_mlp_feature_extractor(self, "state", observation_space["state"], net_arch.get("state", {}), activation_fn)
         _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -856,7 +856,7 @@ class ActionStateTargetImageExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -889,7 +889,7 @@ class ActionStateTargetImageMaskNoiseExtractor(CustomBaseFeaturesExtractor):
                and ("noise_target" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys or "mask" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionStateTargetImageMaskNoiseExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -898,7 +898,7 @@ class ActionStateTargetImageMaskNoiseExtractor(CustomBaseFeaturesExtractor):
         _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _noise_target_features_dim = set_mlp_feature_extractor(self, "noise_target", observation_space["noise_target"], net_arch.get("noise_target", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image/mask observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -920,7 +920,7 @@ class ActionStateTargetImageMaskNoiseExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -952,7 +952,7 @@ class SwarmStateTargetImageExtractor(BaseFeaturesExtractor):
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys) \
                and ("swarm" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(SwarmStateTargetImageExtractor, self).__init__(observation_space=observation_space,
                                                              features_dim=self.features_dim)
@@ -962,7 +962,7 @@ class SwarmStateTargetImageExtractor(BaseFeaturesExtractor):
         _swarm_features_dim = set_mlp_feature_extractor(self, "swarm", observation_space["swarm"], net_arch.get("state", {}), activation_fn) * \
                               observation_space["swarm"].shape[0]
 
-        # 处理image的卷积层
+        # Convolution layers for image/mask observations
         _image_features_dims = []
         self._image_extractor_names = []
         for key in observation_space.keys():
@@ -982,7 +982,7 @@ class SwarmStateTargetImageExtractor(BaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并state,target特征和image特征
+        # Merge state/target features and image features
         return th.cat(features, dim=1)
 
 
@@ -997,7 +997,7 @@ class StateIndexExtractor(BaseFeaturesExtractor):
         obs_keys = list(observation_space.keys())
         assert ("state" in obs_keys) and ("index" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateIndexExtractor, self).__init__(observation_space=observation_space,
                                                    features_dim=self.features_dim)
@@ -1048,7 +1048,7 @@ class ActionStateImageExtractor(CustomBaseFeaturesExtractor):
                and ("index" in obs_keys) \
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(ActionStateImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -1057,7 +1057,7 @@ class ActionStateImageExtractor(CustomBaseFeaturesExtractor):
         # _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -1079,7 +1079,7 @@ class ActionStateImageExtractor(CustomBaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -1097,7 +1097,7 @@ class StateIndexActionExtractor(BaseFeaturesExtractor):
         obs_keys = list(observation_space.keys())
         assert ("state" in obs_keys) and ("index" in obs_keys) and ("pastAction" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateIndexActionExtractor, self).__init__(observation_space=observation_space,
                                                    features_dim=self.features_dim)
@@ -1147,7 +1147,7 @@ class StateIndexImageExtractor(BaseFeaturesExtractor):
                 and ("index" in obs_keys)\
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateIndexImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -1156,7 +1156,7 @@ class StateIndexImageExtractor(BaseFeaturesExtractor):
         # _target_features_dim = set_mlp_feature_extractor(self, "target", observation_space["target"], net_arch.get("target", {}), activation_fn)
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -1178,7 +1178,7 @@ class StateIndexImageExtractor(BaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -1210,7 +1210,7 @@ class StateIndexVdImageExtractor(BaseFeaturesExtractor):
                 and ("vd" in obs_keys)\
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateIndexVdImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -1245,7 +1245,7 @@ class StateIndexVdImageExtractor(BaseFeaturesExtractor):
             # image forward process
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -1276,7 +1276,7 @@ class StateVdImageExtractor(BaseFeaturesExtractor):
                 and ("vd" in obs_keys)\
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateVdImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -1287,7 +1287,7 @@ class StateVdImageExtractor(BaseFeaturesExtractor):
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         # _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
         
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -1312,7 +1312,7 @@ class StateVdImageExtractor(BaseFeaturesExtractor):
             # image forward process
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -1343,7 +1343,7 @@ class NoiseStateIndexImageExtractor(BaseFeaturesExtractor):
                 and ("index" in obs_keys)\
                and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(NoiseStateIndexImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -1353,7 +1353,7 @@ class NoiseStateIndexImageExtractor(BaseFeaturesExtractor):
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
         _noise_state_features_dim = set_mlp_feature_extractor(self, "noise_state", observation_space["noise_state"], net_arch.get("noise_state", {}), activation_fn)
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -1376,7 +1376,7 @@ class NoiseStateIndexImageExtractor(BaseFeaturesExtractor):
         for name in self._image_extractor_names:
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
@@ -1394,7 +1394,7 @@ class StateLatentExtractor(BaseFeaturesExtractor):
         obs_keys = list(observation_space.keys())
         assert ("state" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateLatentExtractor, self).__init__(observation_space=observation_space,
                                                    features_dim=self.features_dim)
@@ -1431,7 +1431,7 @@ class StateIndexVdExtractor(BaseFeaturesExtractor):
         obs_keys = list(observation_space.keys())
         assert ("state" in obs_keys) and ("index" in obs_keys)and ("vd" in obs_keys) 
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateIndexVdExtractor, self).__init__(observation_space=observation_space,
                                                    features_dim=self.features_dim)
@@ -1487,7 +1487,7 @@ class StateImageExtractor(BaseFeaturesExtractor):
         assert ("state" in obs_keys) \
             and ("image" in obs_keys or "color" in obs_keys or "depth" in obs_keys)
 
-        # 默认的特征维度为1
+        # Default feature dimension is 1
         self._features_dim = 1
         super(StateImageExtractor, self).__init__(observation_space=observation_space,
                                                         features_dim=self.features_dim)
@@ -1498,7 +1498,7 @@ class StateImageExtractor(BaseFeaturesExtractor):
         # _action_features_dim = set_mlp_feature_extractor(self, "pastAction", observation_space["pastAction"], net_arch.get("pastAction", {}), activation_fn)
         # _index_features_dim = set_mlp_feature_extractor(self, "index", observation_space["index"], net_arch.get("index", {}), activation_fn)
         
-        # 处理image的卷积层
+        # Convolution layers for image observations
 
         _image_features_dims = []
         self._image_extractor_names = []
@@ -1523,7 +1523,7 @@ class StateImageExtractor(BaseFeaturesExtractor):
             # image forward process
             x = getattr(self, name)(observations[name.split("_")[0]])
             features.append(x)
-        # 合并特征
+        # Merge all features
         if hasattr(self, "recurrent_extractor"):
             features, h = self.recurrent_extractor(th.cat(features, dim=1).unsqueeze(0), observations['latent'].unsqueeze(0))
             return features[0], h[0]
