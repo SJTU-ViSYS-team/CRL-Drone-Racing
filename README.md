@@ -94,11 +94,14 @@ If you find this repository useful in your research, please cite the correspondi
 (update the BibTeX with the final version when available):
 
 ```text
-@inproceedings{crl_drone_racing_icra2026,
-  title     = {Curriculum Reinforcement Learning for Quadrotor Racing with Random Obstacles},
-  author    = {Authors},
-  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
-  year      = {2026}
+@misc{sun2026curriculumreinforcementlearningquadrotor,
+      title={Curriculum Reinforcement Learning for Quadrotor Racing with Random Obstacles}, 
+      author={Fangyu Sun and Fanxing Li and Yu Hu and Linzuo Zhang and Yueqian Liu and Wenxian Yu and Danping Zou},
+      year={2026},
+      eprint={2602.24030},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2602.24030}, 
 }
 ```
 
