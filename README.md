@@ -9,7 +9,7 @@
 Official implementation of the ICRA 2026 paper  
 **“Curriculum Reinforcement Learning for Quadrotor Racing with Random Obstacles”**.
 
-This repository only provides basic single-step training code for developing end-to-end drone racing with obstacles. Developers can design different training curriculum according to their specific needs.
+This repository only provides basic single-step training code for developing end-to-end drone racing with obstacles. Developers are encouraged to design different training curriculum according to their specific tasks.
 
 ---
 ### Video
