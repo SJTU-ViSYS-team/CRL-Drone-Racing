@@ -12,13 +12,9 @@ import utils.algorithms.lr_scheduler as lr_scheduler
 from utils.policies import extractors
 from utils.algorithms.ppo import ppo
 from utils import savers
-# from envs.demo1_fast import RacingEnv2
-# from envs.demo2_3Dcircle_fast import RacingEnv2
-# from envs.demo3_ellipse_fast import RacingEnv2
 # from envs.demo1_straight_onboard  import RacingEnv2
 # from envs.demo2_3Dcircle_onboard  import RacingEnv2
-from envs.demo3_ellipse_onboard  import RacingEnv2
-# from envs.demo3_U  import RacingEnv2
+from envs.demo3_U  import RacingEnv2
 from utils.launcher import rl_parser, training_params     
 
 faulthandler.enable()
@@ -54,14 +50,14 @@ save_folder = os.path.dirname(os.path.abspath(sys.argv[0])) + "/saved/"
 # scene_path = "datasets/spy_datasets/configs/demo2_3Dcircle_random_ob_video"
 # scene_path = "datasets/spy_datasets/configs/demo3_ellipse"
 # scene_path = "datasets/spy_datasets/configs/demo3_ellipse_ob1"
-scene_path = "datasets/spy_datasets/configs/demo3_J"
+# scene_path = "datasets/spy_datasets/configs/demo3_J"
 # scene_path = "datasets/spy_datasets/configs/demo3_J_ob_duo"
 # scene_path = "datasets/spy_datasets/configs/demo3_ellipse_ob_duo"
 # scene_path = "datasets/spy_datasets/configs/demo3_ellipse_no_ob"
 # scene_path = "datasets/spy_datasets/configs/demo3_empty"
 # scene_path = "datasets/spy_datasets/configs/demo3_test"
 # scene_path = "datasets/spy_datasets/configs/demo3_songjiang"
-# scene_path = "datasets/spy_datasets/configs/demo3_U"
+scene_path = "datasets/spy_datasets/configs/demo3_U"
 
 # torch.autograd.detect_anomaly()
 

@@ -90,7 +90,6 @@ class RacingEnv(DroneGymEnvsBase):
             latent_dim=latent_dim,
         )
 
-        # 预分配深度图处理所需的内存
         self.depth_tensor = th.empty((self.num_envs, self.num_envs, 64, 64), 
                                      dtype=th.float32, 
                                      device=self.device)
@@ -109,11 +108,11 @@ class RacingEnv(DroneGymEnvsBase):
         self.first_frame_saved = False  # 添加一个标志变量                
 
         self.targets = th.as_tensor([
-            [3, 0, 1],    # 第一个门
-            [7, -1, 1],    # 第二个门
-            [11, 1, 1],   # 第三个门
-            [15, 0, 1],   # 第四个门
-            [16, 0, 1],   # 第五个门
+            [3, 0, 1],    
+            [7, -1, 1],    
+            [11, 1, 1],   
+            [15, 0, 1],   
+            [16, 0, 1],   
         ])
 
         self.yaw_errors = th.zeros((self.num_envs, 1),dtype=float)
@@ -134,7 +133,15 @@ class RacingEnv(DroneGymEnvsBase):
             shape=(1,),
             dtype=np.float32
         )
-        
+
+        # add gate index to observation space
+        self.observation_space["index"] = spaces.Box(
+            low=0,
+            high=self.length_target,
+            shape=(1,),
+            dtype=np.float32,
+        )
+
         # state observation includes gates
         self.observation_space["state"] = spaces.Box(
             low=-np.inf,
@@ -473,7 +480,7 @@ class RacingEnv2(RacingEnv):
                 #     self.first_frame_saved = True
                     
                 return TensorDict({
-                    # "index": self._next_target_i.clone().detach().cpu().numpy().reshape(-1, 1),
+                    "index": self._next_target_i.clone().detach().cpu().numpy().reshape(-1, 1),
                     "state": state,
                     # "pastAction": self.pastAction.cpu().numpy(),
                     "vd": self.v_d.unsqueeze(1).cpu().numpy(),
